@@ -57,12 +57,13 @@ export default function ResultsScreen({
         </p>
 
         <h2 className="text-[1.85rem] leading-[1.06] font-bold text-stone-950 text-center mb-3 text-balance font-display">
-          We've Found the Right Person for Your Garden
+          Here's What Happens Next
         </h2>
 
         <p className="text-[17px] text-stone-700 text-center leading-relaxed mb-6 text-pretty">
-          Based on what you've told us, here's who we'd recommend for your
-          project.
+          Barry Randall reviews every project personally. He'll talk through
+          your ideas, confirm your budget range, and match you with the right
+          landscaper for the job.
         </p>
 
         {/* 2. Designer profile */}
