@@ -27,7 +27,7 @@ export const founderProfile = {
   name: "Barry Randall",
   firstName: "Barry",
   title: "Founder, Your Local Garden Designer",
-  bio: "Barry has been designing gardens and managing landscaping projects across the UK for over twenty years. He knows which landscapers deliver and which ones don't, because he's worked alongside them. His portfolio includes work for Premier League clubs, professional footballers, and other high-profile private clients.\n\nWhen you book a call, Barry reviews your quiz answers, talks through your ideas, and matches you with the right landscaper for your project, your area, and your budget. He stays involved through the design stage to make sure what gets built is what you actually asked for.",
+  bio: "I built the Your Local Garden Designer network after 33 years serving homeowners in this trade. I know which landscapers deliver and which ones don't because I've worked alongside them.\n\nBetween us, that network has completed over 1,100 gardens, with a portfolio that includes work for Premier League clubs, footballers, musicians and other high-profile private clients.",
   headshot: "/images/barry-randall.png",
   coverageArea: "Nationwide",
   testimonials: [

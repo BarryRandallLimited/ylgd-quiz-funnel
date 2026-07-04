@@ -134,9 +134,11 @@ These rules apply to ALL copy on this project. Do not deviate.
 
 ## Barry's Positioning
 
-Barry Randall is the founder and experienced intermediary. He is NOT positioned as a garden designer himself. He reviews every project brief, talks through the homeowner's ideas, and matches them with the right local landscaper. Copy must reflect this consistently.
+Barry Randall is the founder and the credibility behind the network, but the site uses "we" language throughout. The business has a team, and the copy should not create a dependency on Barry as the sole point of contact. Barry is the brain and the network builder, not the front and centre of every interaction.
 
-His verified credentials: over 20 years in the industry, portfolio includes work for Premier League clubs, professional footballers, and other high-profile private clients.
+His verified credentials: 33 years in the trade, network has completed over 1,100 gardens, portfolio includes work for Premier League clubs, footballers, musicians, and other high-profile private clients.
+
+The results page is structured as a personal letter from Barry, signed off with his photo and title at the bottom. But the operational language ("we'll be in touch", "our team reviews") reflects the team, not just Barry.
 
 ## Current Status
 

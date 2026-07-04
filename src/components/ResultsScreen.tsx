@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckCircle2, MapPin, Star } from "lucide-react";
+import { CheckCircle2, Star } from "lucide-react";
 import { founderProfile } from "@/config/regions";
 import type { PriceResult } from "@/lib/types";
 
@@ -31,66 +31,90 @@ export default function ResultsScreen({ result, countyList }: ResultsScreenProps
       </div>
 
       <div className="max-w-xl mx-auto px-5 pt-6 pb-10">
-        {/* 1. Intro */}
+        {/* 1. Thank you and letter */}
         <div className="flex justify-center mb-4">
           <CheckCircle2 size={44} style={{ color: "#1E3A2F" }} strokeWidth={1.5} />
         </div>
 
-        <h2 className="text-[1.85rem] leading-[1.06] font-bold text-stone-950 text-center mb-3 text-balance font-display">
-          Here's What Happens Next
+        <h2 className="text-[1.85rem] leading-[1.06] font-bold text-stone-950 text-center mb-2 text-balance font-display">
+          Thank you for your enquiry, we've received all your answers.
         </h2>
 
-        <p className="text-[17px] text-stone-700 text-center leading-relaxed mb-6 text-pretty">
-          Barry Randall reviews every project personally. He'll talk through your ideas, confirm your budget range, and match you with the right landscaper for the job.
+        <p className="text-[17px] text-stone-700 text-center leading-relaxed mb-6 text-pretty font-semibold">
+          Here's what happens next.
         </p>
 
-        {/* 2. Designer profile */}
-        <div className="mb-6">
-          <div className="flex gap-4 items-start mb-5">
+        {/* Letter-style message */}
+        <div className="rounded-2xl bg-white border border-stone-200 shadow-sm px-5 py-6 mb-6">
+          <div className="text-[16px] text-stone-700 leading-relaxed text-pretty space-y-4">
+            <p>
+              Every project is reviewed personally by our team, not a call centre, not an algorithm.
+            </p>
+
+            <p>
+              We'll talk through your ideas, confirm the budget range you're working to, and match you with the right landscaper for your project and your area.
+            </p>
+
+            <p>
+              We stay involved through the design stage, to make sure what gets built is what you actually asked for.
+            </p>
+
+            <p className="font-semibold">
+              A quick word on why that matters.
+            </p>
+
+            <p>
+              I built the Your Local Garden Designer network after 33 years serving homeowners in this trade.
+            </p>
+
+            <p>
+              I know which landscapers deliver and which ones don't because I've worked alongside them.
+            </p>
+
+            <p>
+              Between us, that network has completed over 1,100 gardens, with a portfolio that includes work for Premier League clubs, footballers, musicians and other high-profile private clients.
+            </p>
+
+            <p>We'll be in touch shortly.</p>
+
+            <p>Speak soon,</p>
+          </div>
+
+          {/* Sign-off with profile */}
+          <div className="flex gap-4 items-center mt-5 pt-5 border-t border-stone-100">
             <img
               src={profile.headshot}
               alt={profile.name}
-              className="w-20 h-20 rounded-full object-cover object-top shrink-0 shadow-sm bg-stone-200"
+              className="w-16 h-16 rounded-full object-cover object-top shrink-0 shadow-sm bg-stone-200"
             />
             <div>
               <p className="font-bold text-stone-900 text-[16px]">{profile.name}</p>
-              <p className="text-sm text-stone-500 mb-2">{profile.title}</p>
+              <p className="text-sm text-stone-500">{profile.title}</p>
             </div>
-          </div>
-
-          <div className="text-[16px] text-stone-700 leading-relaxed mb-4 text-pretty space-y-3">
-            {profile.bio.split("\n\n").map((p, i) => (
-              <p key={i}>{p}</p>
-            ))}
-          </div>
-
-          <div className="flex items-start gap-2 mb-5 text-sm text-stone-600">
-            <MapPin size={16} className="shrink-0 mt-0.5" style={{ color: "#C9A76A" }} />
-            <span>Covers {profile.coverageArea}</span>
-          </div>
-
-          {/* Testimonials */}
-          <div className="space-y-4 mb-6">
-            {profile.testimonials.map((t) => (
-              <div key={t.name} className="rounded-2xl border border-stone-200 bg-white px-4 py-4 shadow-sm">
-                <p className="text-[15px] text-stone-700 leading-relaxed mb-3 text-pretty">
-                  "{t.text}"
-                </p>
-                <div className="flex items-center justify-between flex-wrap gap-2">
-                  <p className="text-xs font-bold uppercase tracking-wider text-stone-500">{t.name}</p>
-                  <span className="inline-flex items-center gap-1 text-xs font-bold text-stone-600">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} size={11} fill="#C9A76A" color="#C9A76A" />
-                    ))}
-                    <span className="ml-0.5">5 Stars on Google</span>
-                  </span>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
 
-        {/* 3. Cost guide */}
+        {/* Testimonials */}
+        <div className="space-y-4 mb-6">
+          {profile.testimonials.map((t) => (
+            <div key={t.name} className="rounded-2xl border border-stone-200 bg-white px-4 py-4 shadow-sm">
+              <p className="text-[15px] text-stone-700 leading-relaxed mb-3 text-pretty">
+                "{t.text}"
+              </p>
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <p className="text-xs font-bold uppercase tracking-wider text-stone-500">{t.name}</p>
+                <span className="inline-flex items-center gap-1 text-xs font-bold text-stone-600">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={11} fill="#C9A76A" color="#C9A76A" />
+                  ))}
+                  <span className="ml-0.5">5 Stars on Google</span>
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Cost guide */}
         <p
           className="text-xs font-bold uppercase tracking-widest text-center mb-4"
           style={{ color: "#C9A76A" }}
@@ -126,23 +150,6 @@ export default function ResultsScreen({ result, countyList }: ResultsScreenProps
             Two identical gardens can cost very differently. A simpler finish keeps it lean. Premium materials and more detail add to it. You decide where on that scale you sit, and the design stage is where you make those calls.
           </p>
         </div>
-
-        {/* What happens next */}
-        <div
-          className="rounded-2xl p-5 mb-6 border shadow-sm"
-          style={{ borderColor: "#C9A76A", backgroundColor: "#FFFBF1" }}
-        >
-          <h3 className="text-[1.2rem] leading-tight font-bold text-stone-950 mb-3 text-balance font-display">
-            What Happens Next
-          </h3>
-          <p className="text-[16px] text-stone-700 leading-relaxed text-pretty">
-            {profile.firstName} already has your details and your answers. He'll call you within one working day to talk through your garden and, if it's a fit, scope the design. No obligation, and nothing to pay to have the conversation.
-          </p>
-        </div>
-
-        <p className="text-[14px] text-stone-500 text-center leading-snug text-pretty">
-          {countyList}
-        </p>
       </div>
     </div>
   );
