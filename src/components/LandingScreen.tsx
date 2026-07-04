@@ -24,10 +24,10 @@ export default function LandingScreen({ region, onStart }: LandingScreenProps) {
       {/* Right column */}
       <div className="flex flex-col md:w-1/2 md:min-h-screen" style={{ backgroundColor: "#F5F5F0" }}>
         {/* Hero band */}
-        <div className="px-5 pt-8 pb-10 md:pl-12 md:pr-10" style={{ backgroundColor: "#1E3A2F" }}>
+        <div className="px-5 pt-6 pb-6 md:pt-8 md:pb-10 md:pl-12 md:pr-10" style={{ backgroundColor: "#1E3A2F" }}>
           <div className="max-w-lg mx-auto md:mx-0">
             {/* Brand mark */}
-            <div className="flex items-center gap-2 mb-8">
+            <div className="flex items-center gap-2 mb-4 md:mb-8">
               <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: "#C9A76A" }}>
                 <Leaf size={16} className="text-white" />
               </div>
@@ -38,7 +38,7 @@ export default function LandingScreen({ region, onStart }: LandingScreenProps) {
 
             {/* Trust badge */}
             <div
-              className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 mb-5"
+              className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 mb-3 md:mb-5"
               style={{ backgroundColor: "rgba(201,167,106,0.18)", border: "1px solid rgba(201,167,106,0.4)" }}
             >
               <span style={{ color: "#C9A76A" }} className="text-xs">★★★★★</span>
@@ -48,29 +48,19 @@ export default function LandingScreen({ region, onStart }: LandingScreenProps) {
             </div>
 
             {/* Headline */}
-            <h1 className="text-[2.6rem] font-bold leading-[1.02] text-white text-balance mb-4 font-display">
+            <h1 className="text-[1.9rem] md:text-[2.6rem] font-bold leading-[1.08] md:leading-[1.02] text-white text-balance mb-2 md:mb-4 font-display">
               {region.heroHeadline}
             </h1>
 
             {/* Sub-headline */}
-            <p className="text-white/80 text-[17px] leading-relaxed text-pretty">
+            <p className="text-white/80 text-[14px] md:text-[17px] leading-relaxed text-pretty">
               {region.heroSubheadline}
             </p>
           </div>
         </div>
 
-        {/* Mobile image */}
-        <div className="md:hidden w-full">
-          <img
-            src={region.heroImageUrl}
-            alt="Beautifully designed garden"
-            className="w-full h-auto block"
-            loading="eager"
-          />
-        </div>
-
-        {/* CTA card */}
-        <div className="flex-1 px-4 pb-8 md:flex md:flex-col md:justify-center md:pl-12 md:pr-10 md:py-10">
+        {/* CTA card - placed immediately after the hero band on mobile so it sits above the fold */}
+        <div className="px-4 pt-5 pb-6 flex-1 md:flex md:flex-col md:justify-center md:pl-12 md:pr-10 md:py-10">
           <div className="rounded-2xl bg-white shadow-sm border border-stone-100 p-6 max-w-lg w-full mx-auto md:mx-0">
             <h2 className="text-[1.35rem] font-bold text-stone-900 mb-3 text-balance leading-snug font-display">
               Takes about 2 minutes
@@ -89,6 +79,16 @@ export default function LandingScreen({ region, onStart }: LandingScreenProps) {
               {region.countyList}
             </p>
           </div>
+        </div>
+
+        {/* Mobile image - shown below the CTA as supporting visual, no longer blocking the button from view */}
+        <div className="md:hidden w-full">
+          <img
+            src={region.heroImageUrl}
+            alt="Beautifully designed garden"
+            className="w-full h-auto block"
+            loading="lazy"
+          />
         </div>
       </div>
     </div>

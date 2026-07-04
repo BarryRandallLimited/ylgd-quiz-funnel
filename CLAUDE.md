@@ -146,7 +146,7 @@ The results page is structured as a personal letter from Barry, signed off with 
 - Regional pages: /midlands and /cambridgeshire (using fallback config data)
 - GHL webhook: coded but URL not yet configured in Vercel
 - Airtable: not yet wired up, using fallback region data in regions.ts
-- Mobile layout: CTA button sits below the fold, needs fixing (priority)
+- Mobile layout: CTA button moved above the fold in LandingScreen.tsx (2026-07-04). Hero text/badge spacing compacted, hero image moved below the CTA card on mobile. Needs a visual check on a real phone before treating as fully resolved.
 
 ## Future Plans (Do Not Build Unless Asked)
 
