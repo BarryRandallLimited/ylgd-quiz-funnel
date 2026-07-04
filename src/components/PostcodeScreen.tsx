@@ -23,8 +23,25 @@ interface PostcodeScreenProps {
  */
 const UK_POSTCODE_REGEX = /^[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}$/i;
 
+/**
+ * Irish Eircode format validation.
+ * A 3-character routing key followed by a 4-character unique identifier.
+ * Both halves use only digits 0-9 and the letters A C D E F H K N P R T V W X Y
+ * (the official Eircode character set excludes I, O, U and other easily confused letters).
+ * Optional space between the two halves, e.g. D02 AF30, T12X0Y0.
+ */
+const EIRCODE_REGEX = /^[ACDEFHKNPRTVWXY0-9]{3}\s?[ACDEFHKNPRTVWXY0-9]{4}$/i;
+
 function isValidUKPostcode(value: string): boolean {
   return UK_POSTCODE_REGEX.test(value.trim());
+}
+
+function isValidEircode(value: string): boolean {
+  return EIRCODE_REGEX.test(value.trim());
+}
+
+function isValidLocationCode(value: string): boolean {
+  return isValidUKPostcode(value) || isValidEircode(value);
 }
 
 export default function PostcodeScreen({
@@ -45,8 +62,8 @@ export default function PostcodeScreen({
     const trimmed = value.trim().toUpperCase();
     if (trimmed.length === 0) return;
 
-    if (!isValidUKPostcode(trimmed)) {
-      setError("Please enter a valid UK postcode.");
+    if (!isValidLocationCode(trimmed)) {
+      setError("Please enter a valid UK postcode or Irish Eircode.");
       return;
     }
 

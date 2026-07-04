@@ -39,8 +39,8 @@ export const quizSteps: Record<string, QuizStep> = {
   postcode: {
     type: "postcode",
     eyebrow: "Your property",
-    question: "What is your postcode?",
-    hint: "Enter your postcode so we can match you with landscapers in your area.",
+    question: "What is your postcode or Eircode?",
+    hint: "Enter your postcode or Eircode so we can match you with landscapers in your area.",
     image: images.location,
   },
 

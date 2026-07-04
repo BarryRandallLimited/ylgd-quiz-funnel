@@ -4,7 +4,7 @@ export const fallbackRegions: RegionData[] = [
   {
     slug: "midlands",
     regionName: "East and West Midlands",
-    badgeText: "Vetted Landscapers Across England, Ireland And Spain",
+    badgeText: "Vetted Landscapers Across The UK, Ireland And Spain",
     heroHeadline: "Tell us about your garden and we'll match you with the right landscaper.",
     heroSubheadline: "A curated network of landscapers, vetted for quality and matched to your project, your style, and your timeline. Plus an initial estimate to help you plan.",
     countyList: "For homeowners in Leicestershire, Warwickshire, Northamptonshire and Nottinghamshire.",
@@ -14,7 +14,7 @@ export const fallbackRegions: RegionData[] = [
   {
     slug: "cambridgeshire",
     regionName: "Cambridgeshire",
-    badgeText: "Vetted Landscapers Across England, Ireland And Spain",
+    badgeText: "Vetted Landscapers Across The UK, Ireland And Spain",
     heroHeadline: "Tell us about your garden and we'll match you with the right landscaper.",
     heroSubheadline: "A curated network of landscapers, vetted for quality and matched to your project, your style, and your timeline. Plus an initial estimate to help you plan.",
     countyList: "For homeowners in Cambridgeshire.",
