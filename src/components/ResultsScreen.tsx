@@ -87,7 +87,7 @@ export default function ResultsScreen({ result, countyList }: ResultsScreenProps
         </p>
 
         {/* Letter-style message */}
-        <div className="rounded-2xl bg-white border border-stone-200 shadow-sm px-5 py-6 mb-6">
+        <div className="rounded-2xl bg-white border border-stone-200 shadow-sm px-5 py-6 mb-8">
           <div className="text-[16px] text-stone-700 leading-relaxed text-pretty space-y-4">
             <p>
               Every project is reviewed personally by our team, not a call centre, not an algorithm.
@@ -136,50 +136,7 @@ export default function ResultsScreen({ result, countyList }: ResultsScreenProps
           </div>
         </div>
 
-        {/* Text testimonials */}
-        <div className="space-y-4 mb-6">
-          {profile.testimonials.map((t) => (
-            <div key={t.name} className="rounded-2xl border border-stone-200 bg-white px-4 py-4 shadow-sm">
-              <p className="text-[15px] text-stone-700 leading-relaxed mb-3 text-pretty">
-                "{t.text}"
-              </p>
-              <div className="flex items-center justify-between flex-wrap gap-2">
-                <p className="text-xs font-bold uppercase tracking-wider text-stone-500">{t.name}</p>
-                <span className="inline-flex items-center gap-1 text-xs font-bold text-stone-600">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={11} fill="#C9A76A" color="#C9A76A" />
-                  ))}
-                  <span className="ml-0.5">5 Stars on Google</span>
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Video testimonials */}
-        <div className="mb-8">
-          <p
-            className="text-xs font-bold uppercase tracking-widest text-center mb-5"
-            style={{ color: "#C9A76A" }}
-          >
-            What our clients say
-          </p>
-          <div className="space-y-8">
-            {testimonialVideos.map((video) => (
-              <div key={video.videoId}>
-                <p className="text-[17px] font-semibold text-stone-800 leading-snug mb-1 text-center text-pretty">
-                  {video.subhead}
-                </p>
-                <p className="text-[12px] font-bold uppercase tracking-widest text-stone-400 mb-3 text-center">
-                  {video.name}
-                </p>
-                <VimeoEmbed videoId={video.videoId} hash={video.hash} title={video.title} />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Cost guide */}
+        {/* 2. Cost guide */}
         <p
           className="text-xs font-bold uppercase tracking-widest text-center mb-4"
           style={{ color: "#C9A76A" }}
@@ -210,10 +167,59 @@ export default function ResultsScreen({ result, countyList }: ResultsScreenProps
         </div>
 
         {/* Control framing */}
-        <div className="rounded-2xl border border-stone-200 bg-stone-50 px-5 py-4 mb-6 shadow-sm">
+        <div className="rounded-2xl border border-stone-200 bg-stone-50 px-5 py-4 mb-8 shadow-sm">
           <p className="text-[16px] text-stone-700 leading-relaxed text-pretty">
             Two identical gardens can cost very differently. A simpler finish keeps it lean. Premium materials and more detail add to it. You decide where on that scale you sit, and the design stage is where you make those calls.
           </p>
+        </div>
+
+        {/* 3. Video testimonials */}
+        <div className="mb-8">
+          <p
+            className="text-xs font-bold uppercase tracking-widest text-center mb-5"
+            style={{ color: "#C9A76A" }}
+          >
+            What our clients say
+          </p>
+          <div className="space-y-8">
+            {testimonialVideos.map((video) => (
+              <div key={video.videoId}>
+                <p className="text-[17px] font-semibold text-stone-800 leading-snug mb-1 text-center text-pretty">
+                  {video.subhead}
+                </p>
+                <p className="text-[12px] font-bold uppercase tracking-widest text-stone-400 mb-3 text-center">
+                  {video.name}
+                </p>
+                <VimeoEmbed videoId={video.videoId} hash={video.hash} title={video.title} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 4. Text testimonials */}
+        <p
+          className="text-xs font-bold uppercase tracking-widest text-center mb-5"
+          style={{ color: "#C9A76A" }}
+        >
+          Verified Google Reviews
+        </p>
+        <div className="space-y-4 mb-6">
+          {profile.testimonials.map((t) => (
+            <div key={t.name} className="rounded-2xl border border-stone-200 bg-white px-4 py-4 shadow-sm">
+              <p className="text-[15px] text-stone-700 leading-relaxed mb-3 text-pretty">
+                "{t.text}"
+              </p>
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <p className="text-xs font-bold uppercase tracking-wider text-stone-500">{t.name}</p>
+                <span className="inline-flex items-center gap-1 text-xs font-bold text-stone-600">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={11} fill="#C9A76A" color="#C9A76A" />
+                  ))}
+                  <span className="ml-0.5">5 Stars on Google</span>
+                </span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
