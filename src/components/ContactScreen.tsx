@@ -61,21 +61,17 @@ export default function ContactScreen({
           </p>
 
           <h2 className="text-[1.65rem] leading-[1.08] font-bold text-stone-950 mb-3 text-balance font-display">
-            Where do we send your estimate?
+            Where do we send your results?
           </h2>
 
           <p className="text-[16px] text-stone-600 leading-relaxed mb-5 text-pretty">
-            We'll show your planning range on the next screen and your matched
-            landscapers. No spam, ever.
+            We'll show your matched designer and initial estimate on the next screen. No spam, ever.
           </p>
 
           <div className="space-y-4 mb-5">
-            {/* Name row */}
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-sm font-semibold text-stone-700 mb-1">
-                  First name
-                </label>
+                <label className="block text-sm font-semibold text-stone-700 mb-1">First name</label>
                 <input
                   type="text"
                   value={form.firstName}
@@ -84,9 +80,7 @@ export default function ContactScreen({
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-stone-700 mb-1">
-                  Last name
-                </label>
+                <label className="block text-sm font-semibold text-stone-700 mb-1">Last name</label>
                 <input
                   type="text"
                   value={form.lastName}
@@ -96,11 +90,8 @@ export default function ContactScreen({
               </div>
             </div>
 
-            {/* Phone */}
             <div>
-              <label className="block text-sm font-semibold text-stone-700 mb-1">
-                Mobile number
-              </label>
+              <label className="block text-sm font-semibold text-stone-700 mb-1">Mobile number</label>
               <input
                 type="tel"
                 value={form.phone}
@@ -109,11 +100,8 @@ export default function ContactScreen({
               />
             </div>
 
-            {/* Email */}
             <div>
-              <label className="block text-sm font-semibold text-stone-700 mb-1">
-                Email address
-              </label>
+              <label className="block text-sm font-semibold text-stone-700 mb-1">Email address</label>
               <input
                 type="email"
                 value={form.email}
@@ -125,24 +113,18 @@ export default function ContactScreen({
           </div>
 
           <p className="text-xs text-stone-500 mb-4 leading-snug">
-            By submitting, you agree to be contacted by Your Local Garden
-            Designer about your project. We don't sell your data.
+            By submitting, you agree to be contacted by Your Local Garden Designer about your project. We don't sell your data.
           </p>
 
           <button
             onClick={handleSubmit}
             disabled={!isValid || isSubmitting}
             className={`w-full py-4 rounded-xl font-bold text-base transition-all duration-150 active:scale-[0.98] ${
-              isValid && !isSubmitting
-                ? "text-stone-900"
-                : "text-stone-400 cursor-not-allowed"
+              isValid && !isSubmitting ? "text-stone-900" : "text-stone-400 cursor-not-allowed"
             }`}
-            style={{
-              backgroundColor:
-                isValid && !isSubmitting ? "#C9A76A" : "#e5e5e0",
-            }}
+            style={{ backgroundColor: isValid && !isSubmitting ? "#C9A76A" : "#e5e5e0" }}
           >
-            {isSubmitting ? "Submitting..." : "Show Me My Estimate →"}
+            {isSubmitting ? "Submitting..." : "Show Me My Results →"}
           </button>
         </div>
       </div>

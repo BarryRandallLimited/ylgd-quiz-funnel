@@ -21,11 +21,7 @@ import EducationScreen from "./EducationScreen";
 import ContactScreen from "./ContactScreen";
 import ResultsScreen from "./ResultsScreen";
 
-type Screen =
-  | "landing"
-  | (typeof quizOrder)[number]
-  | "loading"
-  | "results";
+type Screen = "landing" | (typeof quizOrder)[number] | "loading" | "results";
 
 const INITIAL_ANSWERS: QuizAnswers = {
   postcode: "",
@@ -63,25 +59,21 @@ export default function QuizApp({ region }: QuizAppProps) {
   function goBack() {
     if (screen === "landing") return;
     const orderWithLanding = ["landing", ...quizOrder] as const;
-    const idx = orderWithLanding.indexOf(screen as typeof orderWithLanding[number]);
+    const idx = orderWithLanding.indexOf(screen as (typeof orderWithLanding)[number]);
     if (idx > 0) goTo(orderWithLanding[idx - 1] as Screen);
   }
 
   function getStepNumber(screenName: string): number {
-    const idx = quizOrder.indexOf(screenName as typeof quizOrder[number]);
+    const idx = quizOrder.indexOf(screenName as (typeof quizOrder)[number]);
     return idx >= 0 ? idx + 1 : 0;
   }
 
-  function handlePostcode(location: string) {
-    setAnswers((a) => ({ ...a, postcode: location }));
+  function handlePostcode(postcode: string) {
+    setAnswers((a) => ({ ...a, postcode }));
     goTo("projectType");
   }
 
-  function handleSingleSelect(
-    field: keyof QuizAnswers,
-    value: string,
-    nextScreen: Screen
-  ) {
+  function handleSingleSelect(field: keyof QuizAnswers, value: string, nextScreen: Screen) {
     setAnswers((a) => ({ ...a, [field]: value }));
     goTo(nextScreen);
   }
@@ -100,22 +92,12 @@ export default function QuizApp({ region }: QuizAppProps) {
       setResult(price);
 
       const eventId = generateEventId();
-
-      // Fire browser pixel
-      pixelLead({
-        value: price.mid,
-        contentName: price.summary,
-        eventId,
-      });
-
-      // Send to GHL
+      pixelLead({ value: price.mid, contentName: price.summary, eventId });
       await submitLead(contact, answers, price, region.slug);
 
-      // Show loading briefly, then results
       goTo("loading");
       setTimeout(() => {
         goTo("results");
-        // Fire ViewContent on results
         pixelViewContent({
           contentName: price.summary,
           value: price.mid,
@@ -131,33 +113,18 @@ export default function QuizApp({ region }: QuizAppProps) {
     }
   }
 
-  // Loading screen
+  // Loading screen with progress bar
   if (screen === "loading") {
     return (
-      <div
-        className="min-h-screen flex items-center justify-center font-body"
-        style={{ backgroundColor: "#1E3A2F" }}
-      >
+      <div className="min-h-screen flex items-center justify-center font-body" style={{ backgroundColor: "#1E3A2F" }}>
         <div className="text-center w-full max-w-xs px-5">
-          <p className="text-white/80 text-lg mb-6">
-            Calculating your estimate...
-          </p>
+          <p className="text-white/80 text-lg mb-6">Calculating your estimate...</p>
           <div className="w-full h-2 rounded-full bg-white/10 overflow-hidden">
             <div
               className="h-full rounded-full"
-              style={{
-                backgroundColor: "#C9A76A",
-                animation: "loadbar 2s ease-in-out forwards",
-              }}
+              style={{ backgroundColor: "#C9A76A", animation: "loadbar 2s ease-in-out forwards" }}
             />
           </div>
-          <style>{`
-            @keyframes loadbar {
-              0% { width: 0%; }
-              60% { width: 70%; }
-              100% { width: 100%; }
-            }
-          `}</style>
         </div>
       </div>
     );
@@ -170,9 +137,7 @@ export default function QuizApp({ region }: QuizAppProps) {
 
   // Landing screen
   if (screen === "landing") {
-    return (
-      <LandingScreen region={region} onStart={() => goTo("postcode")} />
-    );
+    return <LandingScreen region={region} onStart={() => goTo("postcode")} />;
   }
 
   // Quiz screens
@@ -185,7 +150,7 @@ export default function QuizApp({ region }: QuizAppProps) {
         <PostcodeScreen
           eyebrow={step.eyebrow}
           question={step.question}
-          hint="Enter your town or postcode."
+          hint={step.hint}
           placeholder={region.locationPlaceholder}
           onSubmit={handlePostcode}
           onBack={goBack}
@@ -235,9 +200,7 @@ export default function QuizApp({ region }: QuizAppProps) {
           hint={step.hint}
           options={step.options ?? []}
           selected={answers.engineering}
-          onSelect={(v) =>
-            handleSingleSelect("engineering", v, "siteEducation")
-          }
+          onSelect={(v) => handleSingleSelect("engineering", v, "siteEducation")}
           onBack={goBack}
           currentStep={getStepNumber("engineering")}
           totalSteps={TOTAL_STEPS}

@@ -1,44 +1,28 @@
-/**
- * regions.ts - Regional data configuration.
- *
- * In production, this data comes from Airtable.
- * These defaults serve as fallbacks and local dev data.
- */
-
 import type { RegionData } from "@/lib/types";
 
 export const fallbackRegions: RegionData[] = [
   {
     slug: "midlands",
     regionName: "East and West Midlands",
-    badgeText: "Serving the East and West Midlands",
-    heroHeadline:
-      "Tell us about your garden and we'll match you with the right landscaper.",
-    heroSubheadline:
-      "A curated group of Midlands landscapers. The right match for your project, your style, and your timeline.",
-    countyList:
-      "For homeowners in Leicestershire, Warwickshire, Northamptonshire and Nottinghamshire.",
-    locationPlaceholder: "e.g. Leicester, Warwick, NN1 1AA",
+    badgeText: "Vetted Landscapers Across The UK",
+    heroHeadline: "Tell us about your garden and we'll match you with the right landscaper.",
+    heroSubheadline: "A curated network of landscapers, vetted for quality and matched to your project, your style, and your timeline. Plus an initial estimate to help you plan.",
+    countyList: "For homeowners in Leicestershire, Warwickshire, Northamptonshire and Nottinghamshire.",
+    locationPlaceholder: "e.g. LE1 1AA",
     heroImageUrl: "/images/garden-hero-night.jpg",
   },
   {
     slug: "cambridgeshire",
     regionName: "Cambridgeshire",
-    badgeText: "Serving Cambridgeshire",
-    heroHeadline:
-      "Tell us about your garden and we'll match you with the right landscaper.",
-    heroSubheadline:
-      "A curated group of Cambridgeshire landscapers. The right match for your project, your style, and your timeline.",
+    badgeText: "Vetted Landscapers Across The UK",
+    heroHeadline: "Tell us about your garden and we'll match you with the right landscaper.",
+    heroSubheadline: "A curated network of landscapers, vetted for quality and matched to your project, your style, and your timeline. Plus an initial estimate to help you plan.",
     countyList: "For homeowners in Cambridgeshire.",
-    locationPlaceholder: "e.g. Cambridge, Ely, CB1 1AA",
+    locationPlaceholder: "e.g. CB1 1AA",
     heroImageUrl: "/images/garden-hero-night.jpg",
   },
 ];
 
-/**
- * Barry Randall's profile for the results page.
- * Update these details when real assets are supplied.
- */
 export const founderProfile = {
   name: "Barry Randall",
   firstName: "Barry",
@@ -46,28 +30,6 @@ export const founderProfile = {
   bio: "Barry has been designing gardens and managing landscaping projects across the UK for over twenty years. He knows which landscapers deliver and which ones don't, because he's worked alongside them.\n\nWhen you book a call, Barry reviews your quiz answers, talks through your ideas, and matches you with the right landscaper for your project, your area, and your budget. He stays involved through the design stage to make sure what gets built is what you actually asked for.",
   headshot: "/images/barry-randall.png",
   coverageArea: "Nationwide",
-  projectImages: [
-    {
-      src: "/images/portfolio-01.jpg",
-      caption: "Evening patio with festoon lighting",
-    },
-    {
-      src: "/images/portfolio-02.jpg",
-      caption: "Pergola and lawn",
-    },
-    {
-      src: "/images/portfolio-03.jpg",
-      caption: "Covered outdoor room and dining area",
-    },
-    {
-      src: "/images/portfolio-04.jpg",
-      caption: "Contemporary garden with shade sail",
-    },
-    {
-      src: "/images/portfolio-05.jpg",
-      caption: "Raised deck with glass balustrade",
-    },
-  ],
   testimonials: [
     {
       name: "Jeyda T.",

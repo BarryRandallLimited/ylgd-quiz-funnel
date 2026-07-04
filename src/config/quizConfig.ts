@@ -1,6 +1,6 @@
 /**
  * quizConfig.ts - All quiz questions, options, copy, and images.
- * Edit this file to change quiz content without touching layout code.
+ * Harmonised messaging: we match you with a designer AND give you an initial estimate.
  */
 
 export interface QuizOption {
@@ -10,22 +10,16 @@ export interface QuizOption {
 }
 
 export interface QuizStep {
-  type: "text-input" | "single-select" | "multi-select" | "education" | "contact";
+  type: "postcode" | "single-select" | "multi-select" | "education" | "contact";
   eyebrow: string;
   question: string;
   hint: string;
   image: string;
   options?: QuizOption[];
-  /** For education screens */
   points?: string[];
   buttonText?: string;
 }
 
-/**
- * Images: these reference files in /public/images/.
- * Drop the actual garden photos into that folder.
- * Placeholder paths are used until real images are supplied.
- */
 const images = {
   landing: "/images/garden-hero-night.jpg",
   location: "/images/garden-pool-pergola.jpg",
@@ -43,10 +37,10 @@ export const quizImages = images;
 
 export const quizSteps: Record<string, QuizStep> = {
   postcode: {
-    type: "text-input",
+    type: "postcode",
     eyebrow: "Your property",
-    question: "Where is the property?",
-    hint: "", // Hint is dynamic per region (uses locationPlaceholder from Airtable)
+    question: "What is your postcode?",
+    hint: "Enter your postcode so we can match you with landscapers in your area.",
     image: images.location,
   },
 
@@ -60,26 +54,22 @@ export const quizSteps: Record<string, QuizStep> = {
       {
         value: "new_build",
         label: "New build garden",
-        description:
-          "Starting from scratch. The garden is a blank canvas or builder's finish",
+        description: "Starting from scratch. The garden is a blank canvas or builder's finish",
       },
       {
         value: "renovation",
         label: "Garden renovation",
-        description:
-          "Refreshing or improving an existing garden that needs a new direction",
+        description: "Refreshing or improving an existing garden that needs a new direction",
       },
       {
         value: "extension",
         label: "Garden extension or addition",
-        description:
-          "Adding a new zone, feature or outdoor living area to an existing garden",
+        description: "Adding a new zone, feature or outdoor living area to an existing garden",
       },
       {
         value: "full_redesign",
         label: "Full redesign",
-        description:
-          "Starting again with a completely new layout and design",
+        description: "Starting again with a completely new layout and design",
       },
     ],
   },
@@ -94,32 +84,27 @@ export const quizSteps: Record<string, QuizStep> = {
       {
         value: "small",
         label: "Small",
-        description:
-          "Up to 100m\u00B2. Roughly the size of a large living room or small courtyard",
+        description: "Up to 100m\u00B2. Roughly the size of a large living room or small courtyard",
       },
       {
         value: "medium",
         label: "Medium",
-        description:
-          "100\u2013250m\u00B2. About the size of a tennis court. Typical detached house garden.",
+        description: "100\u2013250m\u00B2. About the size of a tennis court. Typical detached house garden.",
       },
       {
         value: "large",
         label: "Large",
-        description:
-          "250\u2013500m\u00B2. Around a quarter of a football pitch. Room for multiple zones.",
+        description: "250\u2013500m\u00B2. Around a quarter of a football pitch. Room for multiple zones.",
       },
       {
         value: "xlarge",
         label: "Extra large",
-        description:
-          "500\u20131,000m\u00B2. Half a football pitch or more. Substantial plot with real scope.",
+        description: "500\u20131,000m\u00B2. Half a football pitch or more. Substantial plot with real scope.",
       },
       {
         value: "estate",
         label: "Estate",
-        description:
-          "1,000m\u00B2+. A full football pitch or larger. Rural property or estate grounds.",
+        description: "1,000m\u00B2+. A full football pitch or larger. Rural property or estate grounds.",
       },
     ],
   },
@@ -134,26 +119,22 @@ export const quizSteps: Record<string, QuizStep> = {
       {
         value: "none",
         label: "Mostly flat and easy to access",
-        description:
-          "No obvious level changes, tight access or drainage complications",
+        description: "No obvious level changes, tight access or drainage complications",
       },
       {
         value: "slope",
         label: "Slope or level changes",
-        description:
-          "Steps, retaining walls or structural work will be needed to manage levels",
+        description: "Steps, retaining walls or structural work will be needed to manage levels",
       },
       {
         value: "drainage",
         label: "Drainage or waterlogging",
-        description:
-          "The garden holds water, drains poorly or needs proper surface water management",
+        description: "The garden holds water, drains poorly or needs proper surface water management",
       },
       {
         value: "both",
         label: "Slope plus drainage issues",
-        description:
-          "The site needs careful technical planning. We'll make sure the right landscaper is matched.",
+        description: "The site needs careful technical planning. We'll make sure the right landscaper is matched.",
       },
     ],
   },
@@ -161,8 +142,7 @@ export const quizSteps: Record<string, QuizStep> = {
   siteEducation: {
     type: "education",
     eyebrow: "What makes a great garden",
-    question:
-      "The gardens that look the best in year five are the ones that were planned properly in year one.",
+    question: "The gardens that look the best in year five are the ones that were planned properly in year one.",
     hint: "",
     image: images.education,
     points: [
@@ -183,44 +163,37 @@ export const quizSteps: Record<string, QuizStep> = {
       {
         value: "patio",
         label: "Patio or terrace",
-        description:
-          "Dining, entertaining and relaxing surfaces: porcelain, natural stone or composite decking.",
+        description: "Dining, entertaining and relaxing surfaces: porcelain, natural stone or composite decking.",
       },
       {
         value: "pergola",
         label: "Pergola or shade structure",
-        description:
-          "A covered outdoor room that works in the UK climate: louvred, fixed or sail shade.",
+        description: "A covered outdoor room that works in the UK climate: louvred, fixed or sail shade.",
       },
       {
         value: "pool",
         label: "Pool or hot tub area",
-        description:
-          "Pool design, surrounds and access routes, or a hot tub zone with proper drainage and screening.",
+        description: "Pool design, surrounds and access routes, or a hot tub zone with proper drainage and screening.",
       },
       {
         value: "waterFeature",
         label: "Water feature",
-        description:
-          "A pond, rill, fountain or reflective pool as a garden focal point.",
+        description: "A pond, rill, fountain or reflective pool as a garden focal point.",
       },
       {
         value: "outdoorKitchen",
         label: "Outdoor kitchen",
-        description:
-          "A proper built-in cooking and entertaining area, not just a barbecue on the patio.",
+        description: "A proper built-in cooking and entertaining area, not just a barbecue on the patio.",
       },
       {
         value: "lighting",
         label: "Lighting scheme",
-        description:
-          "Designed lighting for atmosphere, safety and extending your garden into the evening.",
+        description: "Designed lighting for atmosphere, safety and extending your garden into the evening.",
       },
       {
         value: "planting",
         label: "Planting and borders",
-        description:
-          "Designed planting schemes, borders, hedging and trees to bring the garden to life.",
+        description: "Designed planting schemes, borders, hedging and trees to bring the garden to life.",
       },
     ],
   },
@@ -235,20 +208,17 @@ export const quizSteps: Record<string, QuizStep> = {
       {
         value: "urgent",
         label: "Within the next 3 months",
-        description:
-          "You want the garden finished as soon as possible",
+        description: "You want the garden finished as soon as possible",
       },
       {
         value: "planned",
         label: "In the next 3 to 9 months",
-        description:
-          "You're planning properly and want the right result, not a rushed one",
+        description: "You're planning properly and want the right result, not a rushed one",
       },
       {
         value: "flexible",
         label: "I'm still in the research stage",
-        description:
-          "You want to understand what's possible before committing to a timeline",
+        description: "You want to understand what's possible before committing to a timeline",
       },
     ],
   },
@@ -263,20 +233,17 @@ export const quizSteps: Record<string, QuizStep> = {
       {
         value: "natural",
         label: "Natural and simple",
-        description:
-          "Clean lines, good materials, nothing fussy. A garden that works hard and looks effortless.",
+        description: "Clean lines, good materials, nothing fussy. A garden that works hard and looks effortless.",
       },
       {
         value: "refined",
         label: "Refined and detailed",
-        description:
-          "Considered details, quality finishes, a design that rewards a second look.",
+        description: "Considered details, quality finishes, a design that rewards a second look.",
       },
       {
         value: "premium",
         label: "No expense spared",
-        description:
-          "The best materials, the finest finishes. Every element chosen with purpose.",
+        description: "The best materials, the finest finishes. Every element chosen with purpose.",
       },
     ],
   },
@@ -284,16 +251,12 @@ export const quizSteps: Record<string, QuizStep> = {
   contact: {
     type: "contact",
     eyebrow: "Last step",
-    question: "Where do we send your estimate?",
-    hint: "We'll show your planning range on the next screen and your matched landscapers. No spam, ever.",
+    question: "Where do we send your results?",
+    hint: "We'll show your matched designer and initial estimate on the next screen. No spam, ever.",
     image: images.contact,
   },
 };
 
-/**
- * The order screens appear in the quiz flow.
- * This controls navigation (back/forward) and the step counter.
- */
 export const quizOrder = [
   "postcode",
   "projectType",

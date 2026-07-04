@@ -2,25 +2,14 @@ import type { Metadata } from "next";
 import QuizApp from "@/components/QuizApp";
 import type { RegionData } from "@/lib/types";
 
-/**
- * Root page at find.yourlocalgardendesigner.co.uk
- *
- * Generic national quiz. No region-specific copy.
- * Regional pages live at /midlands, /cambridgeshire, etc.
- * Directory site will be added to the root domain later.
- */
-
 const nationalRegion: RegionData = {
   slug: "national",
-  regionName: "England",
+  regionName: "the UK",
   badgeText: "Vetted Landscapers Across The UK",
-  heroHeadline:
-    "Tell us about your garden and we'll match you with the right landscaper.",
-  heroSubheadline:
-    "A curated network of landscapers, vetted for quality and matched to your project, your style, and your timeline.",
-  countyList:
-    "Currently serving the Midlands, Cambridgeshire & Essex. More regions coming soon.",
-  locationPlaceholder: "e.g. Leicester, Cambridge, NN1 1AA",
+  heroHeadline: "Tell us about your garden and we'll match you with the right landscaper.",
+  heroSubheadline: "A curated network of landscapers, vetted for quality and matched to your project, your style, and your timeline. Plus an initial estimate to help you plan.",
+  countyList: "Currently serving the Midlands, Cambridgeshire & Essex. More regions coming soon.",
+  locationPlaceholder: "e.g. LE1 1AA",
   heroImageUrl: "/images/garden-hero-night.jpg",
 };
 
@@ -34,7 +23,6 @@ export const metadata: Metadata = {
   },
 };
 
-// Meta Pixel
 const PIXEL_ID = "523719334478681";
 
 export default function HomePage() {
@@ -57,15 +45,9 @@ export default function HomePage() {
         }}
       />
       <noscript>
-        <img
-          height="1"
-          width="1"
-          style={{ display: "none" }}
-          src={`https://www.facebook.com/tr?id=${PIXEL_ID}&ev=PageView&noscript=1`}
-          alt=""
-        />
+        <img height="1" width="1" style={{ display: "none" }}
+          src={`https://www.facebook.com/tr?id=${PIXEL_ID}&ev=PageView&noscript=1`} alt="" />
       </noscript>
-
       <QuizApp region={nationalRegion} />
     </>
   );

@@ -9,11 +9,22 @@ interface PostcodeScreenProps {
   question: string;
   hint: string;
   placeholder: string;
-  onSubmit: (location: string) => void;
+  onSubmit: (postcode: string) => void;
   onBack: () => void;
   currentStep: number;
   totalSteps: number;
   imageUrl: string;
+}
+
+/**
+ * UK postcode format validation.
+ * Accepts formats like: SW1A 1AA, EC1A 1BB, W1A 0AX, M1 1AE, B33 8TH, CR2 6XH, DN55 1PT
+ * Case-insensitive, allows optional space in the middle.
+ */
+const UK_POSTCODE_REGEX = /^[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}$/i;
+
+function isValidUKPostcode(value: string): boolean {
+  return UK_POSTCODE_REGEX.test(value.trim());
 }
 
 export default function PostcodeScreen({
@@ -28,12 +39,19 @@ export default function PostcodeScreen({
   imageUrl,
 }: PostcodeScreenProps) {
   const [value, setValue] = useState("");
+  const [error, setError] = useState("");
 
   function handleSubmit() {
-    const trimmed = value.trim();
-    if (trimmed.length > 0) {
-      onSubmit(trimmed);
+    const trimmed = value.trim().toUpperCase();
+    if (trimmed.length === 0) return;
+
+    if (!isValidUKPostcode(trimmed)) {
+      setError("Please enter a valid UK postcode.");
+      return;
     }
+
+    setError("");
+    onSubmit(trimmed);
   }
 
   return (
@@ -62,32 +80,43 @@ export default function PostcodeScreen({
             </p>
           )}
 
-          {/* Location input */}
-          <div className="relative mb-4">
+          {/* Postcode input */}
+          <div className="relative mb-2">
             <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400">
               <MapPin size={18} />
             </div>
             <input
               type="text"
               value={value}
-              onChange={(e) => setValue(e.target.value)}
+              onChange={(e) => {
+                setValue(e.target.value);
+                if (error) setError("");
+              }}
               onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
               placeholder={placeholder}
-              className="w-full pl-10 pr-4 py-3.5 rounded-xl border border-stone-200 bg-white text-stone-900 text-[16px] placeholder:text-stone-400 focus:outline-none focus:border-stone-400 transition-colors"
+              autoComplete="postal-code"
+              className={`w-full pl-10 pr-4 py-3.5 rounded-xl border bg-white text-stone-900 text-[16px] placeholder:text-stone-400 focus:outline-none transition-colors ${
+                error
+                  ? "border-red-400 focus:border-red-400"
+                  : "border-stone-200 focus:border-stone-400"
+              }`}
             />
           </div>
+
+          {error && (
+            <p className="text-red-500 text-sm mb-3">{error}</p>
+          )}
 
           <button
             onClick={handleSubmit}
             disabled={value.trim().length === 0}
-            className={`w-full py-4 rounded-xl font-bold text-base transition-all duration-150 active:scale-[0.98] ${
+            className={`w-full py-4 rounded-xl font-bold text-base transition-all duration-150 active:scale-[0.98] mt-2 ${
               value.trim().length > 0
                 ? "text-white"
                 : "text-stone-400 cursor-not-allowed"
             }`}
             style={{
-              backgroundColor:
-                value.trim().length > 0 ? "#1E3A2F" : "#e5e5e0",
+              backgroundColor: value.trim().length > 0 ? "#1E3A2F" : "#e5e5e0",
             }}
           >
             Continue

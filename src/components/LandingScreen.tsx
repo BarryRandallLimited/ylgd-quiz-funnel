@@ -22,22 +22,13 @@ export default function LandingScreen({ region, onStart }: LandingScreenProps) {
       </div>
 
       {/* Right column */}
-      <div
-        className="flex flex-col md:w-1/2 md:min-h-screen"
-        style={{ backgroundColor: "#F5F5F0" }}
-      >
+      <div className="flex flex-col md:w-1/2 md:min-h-screen" style={{ backgroundColor: "#F5F5F0" }}>
         {/* Hero band */}
-        <div
-          className="px-5 pt-8 pb-10 md:pl-12 md:pr-10"
-          style={{ backgroundColor: "#1E3A2F" }}
-        >
+        <div className="px-5 pt-8 pb-10 md:pl-12 md:pr-10" style={{ backgroundColor: "#1E3A2F" }}>
           <div className="max-w-lg mx-auto md:mx-0">
             {/* Brand mark */}
             <div className="flex items-center gap-2 mb-8">
-              <div
-                className="w-8 h-8 rounded-full flex items-center justify-center"
-                style={{ backgroundColor: "#C9A76A" }}
-              >
+              <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: "#C9A76A" }}>
                 <Leaf size={16} className="text-white" />
               </div>
               <span className="font-semibold text-base tracking-tight text-white font-display">
@@ -48,14 +39,9 @@ export default function LandingScreen({ region, onStart }: LandingScreenProps) {
             {/* Trust badge */}
             <div
               className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 mb-5"
-              style={{
-                backgroundColor: "rgba(201,167,106,0.18)",
-                border: "1px solid rgba(201,167,106,0.4)",
-              }}
+              style={{ backgroundColor: "rgba(201,167,106,0.18)", border: "1px solid rgba(201,167,106,0.4)" }}
             >
-              <span style={{ color: "#C9A76A" }} className="text-xs">
-                ★★★★★
-              </span>
+              <span style={{ color: "#C9A76A" }} className="text-xs">★★★★★</span>
               <span className="text-white/90 text-[11px] font-semibold leading-tight">
                 {region.badgeText}
               </span>
@@ -90,8 +76,7 @@ export default function LandingScreen({ region, onStart }: LandingScreenProps) {
               Takes about 2 minutes
             </h2>
             <p className="text-stone-600 text-[16px] leading-relaxed mb-6 text-pretty">
-              A few questions about your garden, your goals, and what you want
-              from a landscaper. That's it.
+              A few questions about your garden, your goals, and what you want from a landscaper. That's it.
             </p>
             <button
               onClick={onStart}
