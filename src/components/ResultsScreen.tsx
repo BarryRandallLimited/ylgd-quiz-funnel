@@ -13,6 +13,48 @@ function fmt(n: number, symbol: string) {
   return `${symbol}${n.toLocaleString("en-GB")}`;
 }
 
+function VimeoEmbed({ videoId, hash, title }: { videoId: string; hash?: string; title: string }) {
+  const src = hash
+    ? `https://player.vimeo.com/video/${videoId}?h=${hash}&badge=0&autopause=0&player_id=0&app_id=58479`
+    : `https://player.vimeo.com/video/${videoId}?badge=0&autopause=0&player_id=0&app_id=58479`;
+  return (
+    <div className="relative w-full rounded-2xl overflow-hidden shadow-sm" style={{ paddingBottom: "56.25%" }}>
+      <iframe
+        src={src}
+        title={title}
+        frameBorder="0"
+        allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+        allowFullScreen
+        className="absolute inset-0 w-full h-full"
+      />
+    </div>
+  );
+}
+
+const testimonialVideos = [
+  {
+    videoId: "781421878",
+    hash: "ff8ecac6c8",
+    title: "Client testimonial 1",
+    subhead: "\"The best possible work done and the best treatment. I feel like I've had both.\"",
+    name: "Kiernan Dewsbury-Hall",
+  },
+  {
+    videoId: "781422708",
+    hash: "33ce289637",
+    title: "Client testimonial 2",
+    subhead: "\"We couldn't manage this on our own... It was great to know we were in safe hands.\"",
+    name: "Mark and Colette",
+  },
+  {
+    videoId: "781413313",
+    hash: undefined,
+    title: "Client testimonial 3",
+    subhead: "\"I couldn't be happier... It's exactly how I imagined it.\"",
+    name: "James Maddison",
+  },
+];
+
 export default function ResultsScreen({ result, countyList }: ResultsScreenProps) {
   const profile = founderProfile;
 
@@ -94,7 +136,7 @@ export default function ResultsScreen({ result, countyList }: ResultsScreenProps
           </div>
         </div>
 
-        {/* Testimonials */}
+        {/* Text testimonials */}
         <div className="space-y-4 mb-6">
           {profile.testimonials.map((t) => (
             <div key={t.name} className="rounded-2xl border border-stone-200 bg-white px-4 py-4 shadow-sm">
@@ -112,6 +154,29 @@ export default function ResultsScreen({ result, countyList }: ResultsScreenProps
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Video testimonials */}
+        <div className="mb-8">
+          <p
+            className="text-xs font-bold uppercase tracking-widest text-center mb-5"
+            style={{ color: "#C9A76A" }}
+          >
+            What our clients say
+          </p>
+          <div className="space-y-8">
+            {testimonialVideos.map((video) => (
+              <div key={video.videoId}>
+                <p className="text-[17px] font-semibold text-stone-800 leading-snug mb-1 text-center text-pretty">
+                  {video.subhead}
+                </p>
+                <p className="text-[12px] font-bold uppercase tracking-widest text-stone-400 mb-3 text-center">
+                  {video.name}
+                </p>
+                <VimeoEmbed videoId={video.videoId} hash={video.hash} title={video.title} />
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Cost guide */}
