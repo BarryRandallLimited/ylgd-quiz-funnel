@@ -5,12 +5,12 @@ import type { RegionData } from "@/lib/types";
 const nationalRegion: RegionData = {
   slug: "national",
   regionName: "the UK",
-  badgeText: "Vetted Landscapers Across The UK",
+  badgeText: "Vetted Landscapers Across England, Ireland And Spain",
   heroHeadline: "Tell us about your garden and we'll match you with the right landscaper.",
   heroSubheadline: "A curated network of landscapers, vetted for quality and matched to your project, your style, and your timeline. Plus an initial estimate to help you plan.",
-  countyList: "Currently serving the Midlands, Cambridgeshire & Essex. More regions coming soon.",
+  countyList: "Currently serving the UK, Ireland and Spain. More regions coming soon.",
   locationPlaceholder: "e.g. LE1 1AA",
-  heroImageUrl: "/images/garden-hero-night.jpg",
+  heroImageUrl: "/images/garden-pool-pergola.jpg",
 };
 
 export const metadata: Metadata = {

@@ -21,8 +21,8 @@ export interface QuizStep {
 }
 
 const images = {
-  landing: "/images/garden-hero-night.jpg",
-  location: "/images/garden-pool-pergola.jpg",
+  landing: "/images/garden-pool-pergola.jpg",
+  location: "/images/plaza-night.jpg",
   projectType: "/images/garden-pergola-fountain.jpg",
   gardenSize: "/images/garden-dog-castle.jpg",
   engineering: "/images/garden-copper-shower.jpg",
