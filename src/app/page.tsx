@@ -8,7 +8,7 @@ const nationalRegion: RegionData = {
   badgeText: "Vetted Landscapers Across England, Ireland And Spain",
   heroHeadline: "Tell us about your garden and we'll match you with the right landscaper.",
   heroSubheadline: "A curated network of landscapers, vetted for quality and matched to your project, your style, and your timeline. Plus an initial estimate to help you plan.",
-  countyList: "Currently serving the UK, Ireland and Spain. More regions coming soon.",
+  countyList: "",
   locationPlaceholder: "e.g. LE1 1AA",
   heroImageUrl: "/images/garden-pool-pergola.jpg",
 };
