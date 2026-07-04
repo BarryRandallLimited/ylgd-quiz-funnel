@@ -9,7 +9,7 @@ export const fallbackRegions: RegionData[] = [
     heroSubheadline: "A curated network of landscapers, vetted for quality and matched to your project, your style, and your timeline. Plus an initial estimate to help you plan.",
     countyList: "For homeowners in Leicestershire, Warwickshire, Northamptonshire and Nottinghamshire.",
     locationPlaceholder: "e.g. LE1 1AA",
-    heroImageUrl: "/images/garden-pool-pergola.jpg",
+    heroImageUrl: "/images/private-family-resort.jpeg",
   },
   {
     slug: "cambridgeshire",
@@ -19,7 +19,7 @@ export const fallbackRegions: RegionData[] = [
     heroSubheadline: "A curated network of landscapers, vetted for quality and matched to your project, your style, and your timeline. Plus an initial estimate to help you plan.",
     countyList: "For homeowners in Cambridgeshire.",
     locationPlaceholder: "e.g. CB1 1AA",
-    heroImageUrl: "/images/garden-pool-pergola.jpg",
+    heroImageUrl: "/images/private-family-resort.jpeg",
   },
 ];
 

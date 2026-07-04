@@ -10,7 +10,7 @@ const nationalRegion: RegionData = {
   heroSubheadline: "A curated network of landscapers, vetted for quality and matched to your project, your style, and your timeline. Plus an initial estimate to help you plan.",
   countyList: "",
   locationPlaceholder: "e.g. LE1 1AA",
-  heroImageUrl: "/images/garden-pool-pergola.jpg",
+  heroImageUrl: "/images/private-family-resort.jpeg",
 };
 
 export const metadata: Metadata = {
