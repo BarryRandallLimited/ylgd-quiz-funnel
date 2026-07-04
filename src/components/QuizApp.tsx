@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import type {
   QuizAnswers,
   SelectedFeatures,
@@ -41,6 +41,25 @@ const INITIAL_ANSWERS: QuizAnswers = {
   finishLevel: null,
 };
 
+// Sample answers for debug preview
+const DEBUG_ANSWERS: QuizAnswers = {
+  postcode: "LE1 1AA",
+  projectType: "full_redesign",
+  gardenSize: "large",
+  engineering: "none",
+  features: {
+    patio: true,
+    pergola: true,
+    pool: false,
+    waterFeature: false,
+    outdoorKitchen: true,
+    lighting: true,
+    planting: true,
+  },
+  timeline: "planned",
+  finishLevel: "refined",
+};
+
 interface QuizAppProps {
   region: RegionData;
 }
@@ -50,6 +69,16 @@ export default function QuizApp({ region }: QuizAppProps) {
   const [answers, setAnswers] = useState<QuizAnswers>(INITIAL_ANSWERS);
   const [result, setResult] = useState<PriceResult | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Debug: add #results to URL to jump straight to results page
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.location.hash === "#results") {
+      const debugPrice = calculatePrice(DEBUG_ANSWERS);
+      setAnswers(DEBUG_ANSWERS);
+      setResult(debugPrice);
+      setScreen("results");
+    }
+  }, []);
 
   const goTo = useCallback((s: Screen) => {
     window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
