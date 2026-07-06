@@ -128,7 +128,8 @@ These rules apply to ALL copy on this project. Do not deviate.
 - No false-contrast stacks or parallel repetition of sentence openers
 - No hedging language
 - Reading level targeting an average 15-year-old
-- All CTA button text in Title Case
+- H1, H2, and CTA button text in Title Case. Everything else (body copy, hints, option labels, meta descriptions) in sentence case.
+- No periods on H1-H4 headings. Other punctuation (question marks, commas, quote marks) is fine on headings.
 - No fabricated testimonials or composite client stories. Every testimonial must be verified.
 - Price figures must match the calculatePrice.ts formula. Do not invent prices.
 

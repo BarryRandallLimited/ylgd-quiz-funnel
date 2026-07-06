@@ -39,7 +39,7 @@ export const quizSteps: Record<string, QuizStep> = {
   postcode: {
     type: "postcode",
     eyebrow: "Your property",
-    question: "What is your postcode or Eircode?",
+    question: "What Is Your Postcode?",
     hint: "Enter your postcode or Eircode so we can match you with landscapers in your area.",
     image: images.location,
   },
@@ -47,7 +47,7 @@ export const quizSteps: Record<string, QuizStep> = {
   projectType: {
     type: "single-select",
     eyebrow: "Your project",
-    question: "What kind of project is this?",
+    question: "What Kind Of Project Is This?",
     hint: "This helps us understand what you're working with and find landscapers who specialise in exactly this type of work.",
     image: images.projectType,
     options: [
@@ -77,7 +77,7 @@ export const quizSteps: Record<string, QuizStep> = {
   gardenSize: {
     type: "single-select",
     eyebrow: "Your garden",
-    question: "How large is the outdoor space?",
+    question: "How Large Is The Outdoor Space?",
     hint: "A rough size is fine. Think of it in terms of familiar spaces rather than exact measurements.",
     image: images.gardenSize,
     options: [
@@ -112,7 +112,7 @@ export const quizSteps: Record<string, QuizStep> = {
   engineering: {
     type: "single-select",
     eyebrow: "Site conditions",
-    question: "Are there any slope, drainage or access challenges on the plot?",
+    question: "Are There Any Slope, Drainage Or Access Challenges On The Plot?",
     hint: "Understanding the site helps us match you with landscapers who have the right experience for your specific conditions.",
     image: images.engineering,
     options: [
@@ -142,7 +142,7 @@ export const quizSteps: Record<string, QuizStep> = {
   siteEducation: {
     type: "education",
     eyebrow: "What makes a great garden",
-    question: "The gardens that look the best in year five are the ones that were planned properly in year one.",
+    question: "The Gardens That Look The Best In Year Five Are The Ones That Were Planned Properly In Year One",
     hint: "",
     image: images.education,
     points: [
@@ -156,7 +156,7 @@ export const quizSteps: Record<string, QuizStep> = {
   features: {
     type: "multi-select",
     eyebrow: "Outdoor features",
-    question: "Which features are on the wish list?",
+    question: "Which Features Are On The Wish List?",
     hint: "Choose everything that matters. This is where projects move from a tidy garden to a properly considered outdoor space.",
     image: images.features,
     options: [
@@ -201,7 +201,7 @@ export const quizSteps: Record<string, QuizStep> = {
   timeline: {
     type: "single-select",
     eyebrow: "Timing",
-    question: "When would you like the garden to be finished?",
+    question: "When Would You Like The Garden To Be Finished?",
     hint: "We work backwards from your finish date, so the right landscaper is lined up and ready, not just whoever's available.",
     image: images.timeline,
     options: [
@@ -226,7 +226,7 @@ export const quizSteps: Record<string, QuizStep> = {
   finishLevel: {
     type: "single-select",
     eyebrow: "Your finish",
-    question: "Which best describes the finish you're picturing?",
+    question: "Which Best Describes The Finish You're Picturing?",
     hint: "Two identical gardens can cost very differently. This is about taste, not budget. You'll make the final calls in the design stage.",
     image: images.finishLevel,
     options: [
@@ -251,7 +251,7 @@ export const quizSteps: Record<string, QuizStep> = {
   contact: {
     type: "contact",
     eyebrow: "Last step",
-    question: "Where do we send your results?",
+    question: "Where Do We Send Your Results?",
     hint: "We'll show your matched designer and initial estimate on the next screen. No spam, ever.",
     image: images.contact,
   },

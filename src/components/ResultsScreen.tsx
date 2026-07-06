@@ -79,7 +79,7 @@ export default function ResultsScreen({ result, countyList }: ResultsScreenProps
         </div>
 
         <h2 className="text-[1.85rem] leading-[1.06] font-bold text-stone-950 text-center mb-2 text-balance font-display">
-          Thank you for your enquiry, we've received all your answers.
+          Thank You For Your Enquiry, We've Received All Your Answers
         </h2>
 
         <p className="text-[17px] text-stone-700 text-center leading-relaxed mb-6 text-pretty font-semibold">
@@ -145,7 +145,7 @@ export default function ResultsScreen({ result, countyList }: ResultsScreenProps
         </p>
 
         <h3 className="text-[1.5rem] leading-tight font-bold text-stone-950 text-center mb-3 text-balance font-display">
-          A Realistic Guide to Your Garden's Cost
+          A Realistic Guide To Your Garden's Cost
         </h3>
 
         <p className="text-[16px] text-stone-700 text-center leading-relaxed mb-5 text-pretty">

@@ -63,7 +63,7 @@ export default function LandingScreen({ region, onStart }: LandingScreenProps) {
         <div className="px-4 pt-5 pb-6 flex-1 md:flex md:flex-col md:justify-center md:pl-12 md:pr-10 md:py-10">
           <div className="rounded-2xl bg-white shadow-sm border border-stone-100 p-6 max-w-lg w-full mx-auto md:mx-0">
             <h2 className="text-[1.35rem] font-bold text-stone-900 mb-3 text-balance leading-snug font-display">
-              Takes about 2 minutes
+              Takes About 2 Minutes
             </h2>
             <p className="text-stone-600 text-[16px] leading-relaxed mb-6 text-pretty">
               A few questions about your garden, your goals, and what you want from a landscaper. That's it.
