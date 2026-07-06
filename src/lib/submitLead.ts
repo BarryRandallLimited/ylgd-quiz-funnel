@@ -75,13 +75,7 @@ export async function submitLead(
   price: PriceResult,
   regionSlug: string
 ): Promise<boolean> {
-  const webhookUrl = process.env.NEXT_PUBLIC_GHL_WEBHOOK_URL;
-  if (!webhookUrl) {
-    console.warn("[GHL] Webhook URL not configured.");
-    return false;
-  }
-
-  const ghlPayload = {
+  const leadPayload = {
     first_name: contact.firstName,
     last_name: contact.lastName,
     email: contact.email,
@@ -129,18 +123,22 @@ export async function submitLead(
   };
 
   try {
-    const res = await fetch(webhookUrl, {
+    // Posted to our own API route rather than the GHL webhook directly, so the
+    // lead gets written to Airtable first and durably, then forwarded to GHL
+    // server-side. See src/app/api/submit-lead/route.ts.
+    const res = await fetch("/api/submit-lead", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(ghlPayload),
+      body: JSON.stringify(leadPayload),
     });
     if (!res.ok) {
-      console.warn(`[GHL] Webhook failed (${res.status})`);
+      console.warn(`[submit-lead] Request failed (${res.status})`);
       return false;
     }
-    return true;
+    const data = await res.json();
+    return Boolean(data.ok);
   } catch (err) {
-    console.warn("[GHL] Network error:", err);
+    console.warn("[submit-lead] Network error:", err);
     return false;
   }
 }

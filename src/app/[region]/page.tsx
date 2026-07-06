@@ -1,14 +1,15 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { fallbackRegions } from "@/config/regions";
+import { getRegions, getRegionBySlug } from "@/lib/airtable";
 import QuizApp from "@/components/QuizApp";
 
-export function generateStaticParams() {
-  return fallbackRegions.map((r) => ({ region: r.slug }));
+export async function generateStaticParams() {
+  const regions = await getRegions();
+  return regions.map((r) => ({ region: r.slug }));
 }
 
-export function generateMetadata({ params }: { params: { region: string } }): Metadata {
-  const region = fallbackRegions.find((r) => r.slug === params.region);
+export async function generateMetadata({ params }: { params: { region: string } }): Promise<Metadata> {
+  const region = await getRegionBySlug(params.region);
   if (!region) return {};
   return {
     title: `Your Local Garden Designer | ${region.regionName}`,
@@ -23,8 +24,8 @@ export function generateMetadata({ params }: { params: { region: string } }): Me
 
 const PIXEL_ID = "523719334478681";
 
-export default function RegionPage({ params }: { params: { region: string } }) {
-  const region = fallbackRegions.find((r) => r.slug === params.region);
+export default async function RegionPage({ params }: { params: { region: string } }) {
+  const region = await getRegionBySlug(params.region);
   if (!region) notFound();
 
   return (
