@@ -3,9 +3,10 @@
  * sense-check against implausible input (too few/many digits, all-zeros,
  * sequential digits, etc).
  *
- * Scope: the site currently serves UK and Irish postcodes/Eircodes only (see
- * PostcodeScreen.tsx), so the country list below is deliberately limited to
- * those two. Add more here if the business starts taking leads from
+ * Scope: postcode/Eircode validation (see PostcodeScreen.tsx) only covers UK
+ * and Ireland, but the badge copy also claims Spain as a coverage area, so
+ * Spain is included here even though there's no matching postcode format
+ * check yet. Add more here if the business starts taking leads from
  * elsewhere.
  */
 
@@ -19,6 +20,7 @@ export interface CountryCodeOption {
 export const COUNTRY_CODE_OPTIONS: CountryCodeOption[] = [
   { dialCode: "44", label: "UK", flag: "\u{1F1EC}\u{1F1E7}" },
   { dialCode: "353", label: "Ireland", flag: "\u{1F1EE}\u{1F1EA}" },
+  { dialCode: "34", label: "Spain", flag: "\u{1F1EA}\u{1F1F8}" },
 ];
 
 export const DEFAULT_COUNTRY_DIAL_CODE = "44";
