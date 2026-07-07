@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { normalizeAnyToE164 } from "@/lib/phone";
 
 /**
  * Server-side lead capture.
@@ -162,6 +163,14 @@ export async function POST(req: NextRequest) {
     payload = await req.json();
   } catch {
     return NextResponse.json({ ok: false, error: "Invalid JSON" }, { status: 400 });
+  }
+
+  // ContactScreen already sends E.164 ("+447911123456"), so this is normally
+  // a no-op. It's a safety net for GHL specifically, which won't recognize a
+  // number that isn't E.164 - kept here in case a submission ever arrives
+  // from a path that skipped that client-side normalization.
+  if (payload.phone) {
+    payload.phone = normalizeAnyToE164(payload.phone);
   }
 
   if (!AIRTABLE_API_KEY) {

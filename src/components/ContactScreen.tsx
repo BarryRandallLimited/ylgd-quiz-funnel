@@ -3,6 +3,12 @@
 import { useState } from "react";
 import QuizLayout from "./QuizLayout";
 import type { ContactDetails } from "@/lib/types";
+import {
+  COUNTRY_CODE_OPTIONS,
+  DEFAULT_COUNTRY_DIAL_CODE,
+  isPlausiblePhoneNumber,
+  toE164,
+} from "@/lib/phone";
 
 interface ContactScreenProps {
   onSubmit: (contact: ContactDetails) => void;
@@ -27,17 +33,36 @@ export default function ContactScreen({
     phone: "",
     email: "",
   });
+  const [countryDialCode, setCountryDialCode] = useState(DEFAULT_COUNTRY_DIAL_CODE);
+  const [phoneTouched, setPhoneTouched] = useState(false);
+
+  const phoneValid = isPlausiblePhoneNumber(form.phone, countryDialCode);
+  const phoneError =
+    phoneTouched && form.phone.trim().length > 0 && !phoneValid
+      ? "That doesn't look like a valid phone number. Double-check the digits."
+      : "";
 
   const isValid =
     form.firstName.trim().length > 0 &&
     form.lastName.trim().length > 0 &&
-    form.phone.trim().length >= 7 &&
+    phoneValid &&
     form.email.includes("@");
 
   function handleSubmit() {
-    if (isValid && !isSubmitting) {
-      onSubmit(form);
+    if (isSubmitting) return;
+
+    if (!isValid) {
+      // Surface the phone error even if the user never blurred that field
+      // (e.g. they tabbed straight to the button) - clicking submit always
+      // reveals why it isn't going through, not just a greyed-out button.
+      setPhoneTouched(true);
+      return;
     }
+
+    // Normalize to E.164 (e.g. "07911 123456" + UK -> "+447911123456") here
+    // at the point of submission, so every downstream consumer (Airtable,
+    // the GHL webhook) receives the same clean format.
+    onSubmit({ ...form, phone: toE164(form.phone, countryDialCode) });
   }
 
   function updateField(field: keyof ContactDetails, value: string) {
@@ -92,12 +117,38 @@ export default function ContactScreen({
 
             <div>
               <label className="block text-sm font-semibold text-stone-700 mb-1">Mobile number</label>
-              <input
-                type="tel"
-                value={form.phone}
-                onChange={(e) => updateField("phone", e.target.value)}
-                className="w-full px-3.5 py-3 rounded-xl border border-stone-200 bg-white text-stone-900 text-[16px] placeholder:text-stone-400 focus:outline-none focus:border-stone-400 transition-colors"
-              />
+              <div className="flex gap-2">
+                <select
+                  value={countryDialCode}
+                  onChange={(e) => {
+                    setCountryDialCode(e.target.value);
+                    if (phoneTouched) setPhoneTouched(false);
+                  }}
+                  aria-label="Country code"
+                  className="shrink-0 px-2 py-3 rounded-xl border border-stone-200 bg-white text-stone-900 text-[16px] focus:outline-none focus:border-stone-400 transition-colors"
+                >
+                  {COUNTRY_CODE_OPTIONS.map((option) => (
+                    <option key={option.dialCode} value={option.dialCode}>
+                      {option.flag} +{option.dialCode}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  type="tel"
+                  value={form.phone}
+                  onChange={(e) => updateField("phone", e.target.value)}
+                  onBlur={() => setPhoneTouched(true)}
+                  placeholder="07911 123456"
+                  className={`w-full px-3.5 py-3 rounded-xl border bg-white text-stone-900 text-[16px] placeholder:text-stone-400 focus:outline-none transition-colors ${
+                    phoneError
+                      ? "border-red-400 focus:border-red-400"
+                      : "border-stone-200 focus:border-stone-400"
+                  }`}
+                />
+              </div>
+              {phoneError && (
+                <p className="text-red-500 text-sm mt-1">{phoneError}</p>
+              )}
             </div>
 
             <div>
@@ -118,7 +169,8 @@ export default function ContactScreen({
 
           <button
             onClick={handleSubmit}
-            disabled={!isValid || isSubmitting}
+            disabled={isSubmitting}
+            aria-disabled={!isValid}
             className={`w-full py-4 rounded-xl font-bold text-base transition-all duration-150 active:scale-[0.98] ${
               isValid && !isSubmitting ? "text-stone-900" : "text-stone-400 cursor-not-allowed"
             }`}
