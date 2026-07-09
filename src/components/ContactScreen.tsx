@@ -17,6 +17,8 @@ interface ContactScreenProps {
   totalSteps: number;
   imageUrl: string;
   isSubmitting: boolean;
+  /** Pre-selects a country in the dial code dropdown for this region (e.g. Ireland for /cavan). Defaults to DEFAULT_COUNTRY_DIAL_CODE (UK). */
+  defaultCountryDialCode?: string;
 }
 
 export default function ContactScreen({
@@ -26,6 +28,7 @@ export default function ContactScreen({
   totalSteps,
   imageUrl,
   isSubmitting,
+  defaultCountryDialCode,
 }: ContactScreenProps) {
   const [form, setForm] = useState<ContactDetails>({
     firstName: "",
@@ -33,7 +36,9 @@ export default function ContactScreen({
     phone: "",
     email: "",
   });
-  const [countryDialCode, setCountryDialCode] = useState(DEFAULT_COUNTRY_DIAL_CODE);
+  const [countryDialCode, setCountryDialCode] = useState(
+    defaultCountryDialCode ?? DEFAULT_COUNTRY_DIAL_CODE
+  );
   const [phoneTouched, setPhoneTouched] = useState(false);
 
   const phoneValid = isPlausiblePhoneNumber(form.phone, countryDialCode);

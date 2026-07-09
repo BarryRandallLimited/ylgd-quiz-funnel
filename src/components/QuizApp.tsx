@@ -307,6 +307,9 @@ export default function QuizApp({ region }: QuizAppProps) {
           totalSteps={TOTAL_STEPS}
           imageUrl={step.image}
           isSubmitting={isSubmitting}
+          // Cavan is in the Republic of Ireland, so default the phone
+          // dropdown to +353 instead of the sitewide +44 default.
+          defaultCountryDialCode={region.slug === "cavan" ? "353" : undefined}
         />
       );
 
