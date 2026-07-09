@@ -9,6 +9,7 @@ import {
   isPlausiblePhoneNumber,
   toE164,
 } from "@/lib/phone";
+import { checkEmail } from "@/lib/email";
 
 interface ContactScreenProps {
   onSubmit: (contact: ContactDetails) => void;
@@ -40,6 +41,8 @@ export default function ContactScreen({
     defaultCountryDialCode ?? DEFAULT_COUNTRY_DIAL_CODE
   );
   const [phoneTouched, setPhoneTouched] = useState(false);
+  const [emailTouched, setEmailTouched] = useState(false);
+  const [suggestionDismissed, setSuggestionDismissed] = useState(false);
 
   const phoneValid = isPlausiblePhoneNumber(form.phone, countryDialCode);
   const phoneError =
@@ -47,20 +50,30 @@ export default function ContactScreen({
       ? "That doesn't look like a valid phone number. Double-check the digits."
       : "";
 
+  const emailCheck = form.email.trim().length > 0 ? checkEmail(form.email) : { valid: false };
+  const emailError =
+    emailTouched && form.email.trim().length > 0 && !emailCheck.valid
+      ? emailCheck.reason ?? "That doesn't look like a valid email address."
+      : "";
+  const emailSuggestion =
+    !suggestionDismissed && emailCheck.valid ? emailCheck.suggestion : undefined;
+
   const isValid =
     form.firstName.trim().length > 0 &&
     form.lastName.trim().length > 0 &&
     phoneValid &&
-    form.email.includes("@");
+    emailCheck.valid;
 
   function handleSubmit() {
     if (isSubmitting) return;
 
     if (!isValid) {
-      // Surface the phone error even if the user never blurred that field
-      // (e.g. they tabbed straight to the button) - clicking submit always
-      // reveals why it isn't going through, not just a greyed-out button.
+      // Surface the phone/email errors even if the user never blurred those
+      // fields (e.g. they tabbed straight to the button) - clicking submit
+      // always reveals why it isn't going through, not just a greyed-out
+      // button.
       setPhoneTouched(true);
+      setEmailTouched(true);
       return;
     }
 
@@ -161,10 +174,37 @@ export default function ContactScreen({
               <input
                 type="email"
                 value={form.email}
-                onChange={(e) => updateField("email", e.target.value)}
+                onChange={(e) => {
+                  updateField("email", e.target.value);
+                  setSuggestionDismissed(false);
+                }}
+                onBlur={() => setEmailTouched(true)}
                 onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
-                className="w-full px-3.5 py-3 rounded-xl border border-stone-200 bg-white text-stone-900 text-[16px] placeholder:text-stone-400 focus:outline-none focus:border-stone-400 transition-colors"
+                className={`w-full px-3.5 py-3 rounded-xl border bg-white text-stone-900 text-[16px] placeholder:text-stone-400 focus:outline-none transition-colors ${
+                  emailError
+                    ? "border-red-400 focus:border-red-400"
+                    : "border-stone-200 focus:border-stone-400"
+                }`}
               />
+              {emailError && (
+                <p className="text-red-500 text-sm mt-1">{emailError}</p>
+              )}
+              {!emailError && emailSuggestion && (
+                <p className="text-amber-600 text-sm mt-1">
+                  Did you mean{" "}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      updateField("email", emailSuggestion);
+                      setSuggestionDismissed(true);
+                    }}
+                    className="underline font-semibold"
+                  >
+                    {emailSuggestion}
+                  </button>
+                  ?
+                </p>
+              )}
             </div>
           </div>
 
