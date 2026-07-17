@@ -1,27 +1,11 @@
-import type { RegionData } from "@/lib/types";
-
-export const fallbackRegions: RegionData[] = [
-  {
-    slug: "midlands",
-    regionName: "East and West Midlands",
-    badgeText: "Vetted Landscapers Across The UK, Ireland And Spain",
-    heroHeadline: "Tell Us About Your Garden And We'll Match You With The Right Landscaper",
-    heroSubheadline: "A curated network of landscapers, vetted for quality and matched to your project, your style, and your timeline. Plus an initial estimate to help you plan.",
-    countyList: "For homeowners in Leicestershire, Warwickshire, Northamptonshire and Nottinghamshire.",
-    locationPlaceholder: "e.g. LE1 1AA",
-    heroImageUrl: "/images/private-family-resort.jpeg",
-  },
-  {
-    slug: "cambridgeshire",
-    regionName: "Cambridgeshire",
-    badgeText: "Vetted Landscapers Across The UK, Ireland And Spain",
-    heroHeadline: "Tell Us About Your Garden And We'll Match You With The Right Landscaper",
-    heroSubheadline: "A curated network of landscapers, vetted for quality and matched to your project, your style, and your timeline. Plus an initial estimate to help you plan.",
-    countyList: "For homeowners in Cambridgeshire.",
-    locationPlaceholder: "e.g. CB1 1AA",
-    heroImageUrl: "/images/private-family-resort.jpeg",
-  },
-];
+/**
+ * Fallback region data lives in regions.generated.ts, which is regenerated
+ * from the Airtable Regions table before every build (see
+ * scripts/sync-regions.js and the "prebuild" script in package.json) so it
+ * can't silently drift from what's actually live in Airtable. Re-exported
+ * here so nothing importing from "@/config/regions" has to change.
+ */
+export { fallbackRegions } from "./regions.generated";
 
 export const founderProfile = {
   name: "Barry Randall",
