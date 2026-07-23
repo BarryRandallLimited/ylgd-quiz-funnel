@@ -4,16 +4,17 @@ import { getPackage, PACKAGE_ORDER } from "@/config/packages";
 import PayClient from "./PayClient";
 
 interface PageProps {
-  params: { slug: string };
-  searchParams: { ref?: string };
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ ref?: string }>;
 }
 
 export function generateStaticParams() {
   return PACKAGE_ORDER.map((slug) => ({ slug }));
 }
 
-export function generateMetadata({ params }: PageProps): Metadata {
-  const pkg = getPackage(params.slug);
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const pkg = getPackage(slug);
   if (!pkg) return {};
   return {
     title: `${pkg.name} — Your Local Garden Designer`,
@@ -21,9 +22,11 @@ export function generateMetadata({ params }: PageProps): Metadata {
   };
 }
 
-export default function PayPage({ params, searchParams }: PageProps) {
-  const pkg = getPackage(params.slug);
+export default async function PayPage({ params, searchParams }: PageProps) {
+  const { slug } = await params;
+  const { ref } = await searchParams;
+  const pkg = getPackage(slug);
   if (!pkg) notFound();
 
-  return <PayClient pkg={pkg} landscaperRef={searchParams.ref} />;
+  return <PayClient pkg={pkg} landscaperRef={ref} />;
 }

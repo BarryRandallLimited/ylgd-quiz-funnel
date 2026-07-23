@@ -1,15 +1,16 @@
 import { getPackage } from "@/config/packages";
 
 interface PageProps {
-  searchParams: { package?: string; session_id?: string };
+  searchParams: Promise<{ package?: string; session_id?: string }>;
 }
 
 export const metadata = {
   title: "Payment Confirmed — Your Local Garden Designer",
 };
 
-export default function SuccessPage({ searchParams }: PageProps) {
-  const pkg = searchParams.package ? getPackage(searchParams.package) : undefined;
+export default async function SuccessPage({ searchParams }: PageProps) {
+  const { package: packageSlug } = await searchParams;
+  const pkg = packageSlug ? getPackage(packageSlug) : undefined;
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-sage px-6 font-body text-forest">

@@ -8,8 +8,9 @@ export async function generateStaticParams() {
   return regions.map((r) => ({ region: r.slug }));
 }
 
-export async function generateMetadata({ params }: { params: { region: string } }): Promise<Metadata> {
-  const region = await getRegionBySlug(params.region);
+export async function generateMetadata({ params }: { params: Promise<{ region: string }> }): Promise<Metadata> {
+  const { region: regionSlug } = await params;
+  const region = await getRegionBySlug(regionSlug);
   if (!region) return {};
   return {
     title: `Your Local Garden Designer | ${region.regionName}`,
@@ -24,8 +25,9 @@ export async function generateMetadata({ params }: { params: { region: string } 
 
 const PIXEL_ID = "523719334478681";
 
-export default async function RegionPage({ params }: { params: { region: string } }) {
-  const region = await getRegionBySlug(params.region);
+export default async function RegionPage({ params }: { params: Promise<{ region: string }> }) {
+  const { region: regionSlug } = await params;
+  const region = await getRegionBySlug(regionSlug);
   if (!region) notFound();
 
   return (
