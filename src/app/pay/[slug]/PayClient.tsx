@@ -34,6 +34,14 @@ export default function PayClient({ pkg, landscaperRef }: PayClientProps) {
 
   return (
     <main className="min-h-screen bg-sage font-body text-forest">
+      <div className="mx-auto aspect-[1280/430] w-full max-w-3xl overflow-hidden sm:mt-8 sm:rounded-2xl">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={pkg.imageUrl}
+          alt={pkg.name}
+          className="h-full w-full object-cover"
+        />
+      </div>
       <div className="mx-auto max-w-2xl px-6 py-12 sm:py-16">
         <div className="mb-8 text-center">
           <p className="mb-3 font-display text-sm font-bold uppercase tracking-wide text-forest">

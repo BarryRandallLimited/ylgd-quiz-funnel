@@ -22,6 +22,7 @@ export interface ServicePackage {
   priceGBP: number;
   investmentLabel: string;
   turnaround: string;
+  imageUrl: string;
   features: string[];
   howItWorksBody: string;
   nextSteps: string[];
@@ -37,6 +38,7 @@ export const PACKAGES: Record<PackageSlug, ServicePackage> = {
     priceGBP: 300,
     investmentLabel: "£300 one-off · on-site",
     turnaround: "Once payment is received, we'll get you booked in within 3-5 working days.",
+    imageUrl: "/images/packages/consultation.jpg",
     features: [
       "A professional on-site visit to see and understand your space",
       "A proper conversation about your brief and how you want to live in the garden",
@@ -61,6 +63,7 @@ export const PACKAGES: Record<PackageSlug, ServicePackage> = {
     priceGBP: 1800,
     investmentLabel: "£1,800 · 2D concept design",
     turnaround: "Once payment is received, we'll be in touch within one working day to get you booked in with our designer.",
+    imageUrl: "/images/packages/blueprint.jpg",
     features: [
       "A professional on-site visit to see and understand your space",
       "A measured site survey of your garden",
@@ -85,6 +88,7 @@ export const PACKAGES: Record<PackageSlug, ServicePackage> = {
     priceGBP: 3000,
     investmentLabel: "£3,000 · 3D design",
     turnaround: "Once payment is received, we'll be in touch within one working day to get you booked in.",
+    imageUrl: "/images/packages/vision.jpg",
     features: [
       "Everything in Blueprint, plus:",
       "A full 3D visualisation of your garden — see it before you build it",
@@ -110,6 +114,7 @@ export const PACKAGES: Record<PackageSlug, ServicePackage> = {
     priceGBP: 6000,
     investmentLabel: "£6,000 · 3D design + technical drawings",
     turnaround: "Once payment is received, we'll be in touch within one working day to get you booked in.",
+    imageUrl: "/images/packages/masterpiece.jpg",
     features: [
       "Everything in Vision, plus:",
       "A cinematic 3D fly-through of your finished garden",
