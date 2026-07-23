@@ -5,9 +5,9 @@ import type { RegionData } from "@/lib/types";
 const nationalRegion: RegionData = {
   slug: "national",
   regionName: "the UK",
-  badgeText: "Vetted Landscapers Across The UK, Ireland And Spain",
+  badgeText: "Approved Landscapers Across The UK, Ireland And Spain",
   heroHeadline: "Tell Us About Your Garden And We'll Match You With The Right Landscaper",
-  heroSubheadline: "A curated network of landscapers, vetted for quality and matched to your project, your style, and your timeline. Plus an initial estimate to help you plan.",
+  heroSubheadline: "A curated network of landscapers, approved for quality and matched to your project, your style, and your timeline. Plus an initial estimate to help you plan.",
   countyList: "",
   locationPlaceholder: "e.g. LE1 1AA",
   heroImageUrl: "/images/private-family-resort.jpeg",
