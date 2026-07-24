@@ -5,7 +5,7 @@ import PayClient from "./PayClient";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ ref?: string }>;
+  searchParams: Promise<{ ref?: string; test?: string }>;
 }
 
 export function generateStaticParams() {
@@ -24,9 +24,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function PayPage({ params, searchParams }: PageProps) {
   const { slug } = await params;
-  const { ref } = await searchParams;
+  const { ref, test } = await searchParams;
   const pkg = getPackage(slug);
   if (!pkg) notFound();
 
-  return <PayClient pkg={pkg} landscaperRef={ref} />;
+  return <PayClient pkg={pkg} landscaperRef={ref} testCode={test} />;
 }

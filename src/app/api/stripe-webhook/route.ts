@@ -13,14 +13,28 @@ import { getPackage } from "@/config/packages";
  *
  * Must read the raw request body (not parsed JSON) to verify the Stripe
  * signature, so this route can't use req.json() directly.
+ *
+ * Test mode: this one endpoint URL receives both live and test-mode events
+ * (each registered separately in the Stripe dashboard, under Live mode and
+ * Test mode respectively, but pointing at the same URL). Since Stripe signs
+ * live and test events with different secrets, signature verification tries
+ * the live secret first, then falls back to the test secret — whichever
+ * succeeds tells us which one it was. Stripe's own event.livemode flag
+ * confirms it either way, so this is never ambiguous.
  */
 
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
 const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET;
+const STRIPE_WEBHOOK_SECRET_TEST = process.env.STRIPE_WEBHOOK_SECRET_TEST;
 const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID || "appAGZVUJmvnyDAL1";
 const AIRTABLE_API_KEY = process.env.AIRTABLE_API_KEY;
 const ORDERS_TABLE = "Orders";
-const GHL_WEBHOOK_URL = process.env.NEXT_PUBLIC_GHL_WEBHOOK_URL;
+// Deliberately a SEPARATE webhook from the one leads use
+// (NEXT_PUBLIC_GHL_WEBHOOK_URL in submit-lead/route.ts). Orders and leads are
+// different payload shapes with different downstream automations (order
+// notifications to the team vs lead nurture), so they get their own GHL
+// workflow rather than sharing one and branching internally.
+const GHL_ORDERS_WEBHOOK_URL = process.env.GHL_ORDERS_WEBHOOK_URL;
 
 function airtableHeaders() {
   return {
@@ -40,6 +54,7 @@ interface OrderPayload {
   customerPhone: string;
   landscaperRef: string;
   purchasedAt: string;
+  isTest: boolean;
 }
 
 async function createOrderRecord(order: OrderPayload): Promise<string | undefined> {
@@ -60,6 +75,7 @@ async function createOrderRecord(order: OrderPayload): Promise<string | undefine
     "Payment Status": "Paid",
     "GHL Sync Status": "Pending",
     "Purchased At": order.purchasedAt,
+    "Is Test": order.isTest,
   };
 
   const res = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${ORDERS_TABLE}`, {
@@ -95,24 +111,29 @@ async function updateOrderSyncStatus(recordId: string, status: "Sent" | "Failed"
 }
 
 async function forwardToGHL(order: OrderPayload): Promise<{ ok: boolean; error?: string }> {
-  if (!GHL_WEBHOOK_URL) {
-    return { ok: false, error: "NEXT_PUBLIC_GHL_WEBHOOK_URL not configured" };
+  if (!GHL_ORDERS_WEBHOOK_URL) {
+    return { ok: false, error: "GHL_ORDERS_WEBHOOK_URL not configured" };
   }
   try {
-    const res = await fetch(GHL_WEBHOOK_URL, {
+    const res = await fetch(GHL_ORDERS_WEBHOOK_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         event: "order_purchased",
+        is_test: order.isTest,
         first_name: order.customerName.split(" ")[0] || order.customerName,
         last_name: order.customerName.split(" ").slice(1).join(" "),
         email: order.customerEmail,
         phone: order.customerPhone,
-        package: order.packageName,
+        // Prefixed so the notification message reads "[TEST ORDER] The
+        // Consultation" without needing conditional logic inside GHL itself.
+        package: order.isTest ? `[TEST ORDER] ${order.packageName}` : order.packageName,
         package_slug: order.packageSlug,
         amount_gbp: order.amountGBP,
         landscaper_ref: order.landscaperRef,
-        tags: ["order-purchased", `package-${order.packageSlug}`],
+        tags: order.isTest
+          ? ["test-order", `package-${order.packageSlug}`]
+          : ["order-purchased", `package-${order.packageSlug}`],
       }),
     });
     if (!res.ok) {
@@ -134,12 +155,25 @@ export async function POST(req: NextRequest) {
   const signature = req.headers.get("stripe-signature");
   const rawBody = await req.text();
 
-  let event: Stripe.Event;
+  if (!signature) {
+    return NextResponse.json({ error: "Missing stripe-signature header" }, { status: 400 });
+  }
+
+  let event: Stripe.Event | undefined;
   try {
-    if (!signature) throw new Error("Missing stripe-signature header");
     event = stripe.webhooks.constructEvent(rawBody, signature, STRIPE_WEBHOOK_SECRET);
-  } catch (err) {
-    console.error("[stripe-webhook] Signature verification failed:", err);
+  } catch {
+    // Not a live-signed event — try the test secret before giving up.
+    if (STRIPE_WEBHOOK_SECRET_TEST) {
+      try {
+        event = stripe.webhooks.constructEvent(rawBody, signature, STRIPE_WEBHOOK_SECRET_TEST);
+      } catch (testErr) {
+        console.error("[stripe-webhook] Signature verification failed (live and test):", testErr);
+      }
+    }
+  }
+
+  if (!event) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
@@ -164,6 +198,10 @@ export async function POST(req: NextRequest) {
     customerPhone: session.customer_details?.phone || "",
     landscaperRef: session.metadata?.landscaperRef || "",
     purchasedAt: new Date().toISOString(),
+    // event.livemode is Stripe's own authoritative flag — set by Stripe
+    // itself, not by anything in our request, so it can't be spoofed by a
+    // client-supplied field.
+    isTest: !event.livemode,
   };
 
   const orderRecordId = await createOrderRecord(order);

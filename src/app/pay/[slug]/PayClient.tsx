@@ -6,9 +6,10 @@ import type { ServicePackage } from "@/config/packages";
 interface PayClientProps {
   pkg: ServicePackage;
   landscaperRef?: string;
+  testCode?: string;
 }
 
-export default function PayClient({ pkg, landscaperRef }: PayClientProps) {
+export default function PayClient({ pkg, landscaperRef, testCode }: PayClientProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -19,7 +20,7 @@ export default function PayClient({ pkg, landscaperRef }: PayClientProps) {
       const res = await fetch("/api/create-checkout-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ package: pkg.slug, landscaperRef }),
+        body: JSON.stringify({ package: pkg.slug, landscaperRef, testCode }),
       });
       const data = await res.json();
       if (!res.ok || !data.url) {
@@ -34,6 +35,11 @@ export default function PayClient({ pkg, landscaperRef }: PayClientProps) {
 
   return (
     <main className="min-h-screen bg-sage font-body text-forest">
+      {testCode && (
+        <div className="bg-red-600 px-4 py-2 text-center text-sm font-bold uppercase tracking-wide text-white">
+          Test Mode — No Real Payment Will Be Taken
+        </div>
+      )}
       <div className="mx-auto aspect-[1280/430] w-full max-w-3xl overflow-hidden sm:mt-8 sm:rounded-2xl">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
