@@ -21,11 +21,9 @@ export default async function SuccessPage({ searchParams }: PageProps) {
         <h1 className="mb-3 font-display text-2xl font-bold text-forest sm:text-3xl">
           Payment Confirmed
         </h1>
-        <p className="mb-1 text-sm text-forest/80">
-          Thank you{pkg ? ` for booking ${pkg.name}` : ""} — your payment has gone through.
-        </p>
         <p className="text-sm text-forest/80">
-          {pkg?.turnaround || "We'll be in touch shortly to get you booked in."}
+          {pkg?.successMessage ||
+            "Thank you — your payment has gone through. Our team will be in touch shortly to arrange next steps."}
         </p>
         <p className="mt-8 text-xs text-forest/60">
           Your Local Garden Designer · an independent design &amp; matching service ·

@@ -22,6 +22,7 @@ export interface ServicePackage {
   priceGBP: number;
   investmentLabel: string;
   turnaround: string;
+  successMessage: string;
   imageUrl: string;
   features: string[];
   howItWorksBody: string;
@@ -38,6 +39,8 @@ export const PACKAGES: Record<PackageSlug, ServicePackage> = {
     priceGBP: 300,
     investmentLabel: "£300 one-off · on-site",
     turnaround: "Once payment is received, we'll get you booked in within 3-5 working days.",
+    successMessage:
+      "Thank you for booking The Consultation. Our team will call you within the next 3-5 working days to confirm the date and time of your on-site visit.",
     imageUrl: "/images/consultation.jpg",
     features: [
       "A professional on-site visit to see and understand your space",
@@ -63,6 +66,8 @@ export const PACKAGES: Record<PackageSlug, ServicePackage> = {
     priceGBP: 1800,
     investmentLabel: "£1,800 · 2D concept design",
     turnaround: "Once payment is received, we'll be in touch within one working day to get you booked in with our designer.",
+    successMessage:
+      "Thank you for purchasing your Garden Blueprint. Our team will call you within one working day to confirm the date and time of your site survey.",
     imageUrl: "/images/blueprint.jpg",
     features: [
       "A professional on-site visit to see and understand your space",
@@ -88,6 +93,8 @@ export const PACKAGES: Record<PackageSlug, ServicePackage> = {
     priceGBP: 3000,
     investmentLabel: "£3,000 · 3D design",
     turnaround: "Once payment is received, we'll be in touch within one working day to get you booked in.",
+    successMessage:
+      "Thank you for purchasing The Vision. Our team will call you within one working day to confirm the date and time of your site survey.",
     imageUrl: "/images/vision.jpg",
     features: [
       "Everything in Blueprint, plus:",
@@ -114,6 +121,8 @@ export const PACKAGES: Record<PackageSlug, ServicePackage> = {
     priceGBP: 6000,
     investmentLabel: "£6,000 · 3D design + technical drawings",
     turnaround: "Once payment is received, we'll be in touch within one working day to get you booked in.",
+    successMessage:
+      "Thank you for purchasing The Masterpiece. Our team will call you within one working day to confirm the date and time of your site survey.",
     imageUrl: "/images/masterpiece.jpg",
     features: [
       "Everything in Vision, plus:",

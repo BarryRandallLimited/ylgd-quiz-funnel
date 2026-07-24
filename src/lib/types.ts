@@ -53,3 +53,9 @@ export interface RegionData {
   locationPlaceholder: string;
   heroImageUrl: string;
 }
+
+export interface LandscaperData {
+  slug: string;
+  businessName: string;
+  founderName: string;
+}
