@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Check, Star } from "lucide-react";
 import type { ServicePackage } from "@/config/packages";
 import PayHeader from "@/components/PayHeader";
+import PaymentTrustBadges from "@/components/PaymentTrustBadges";
 
 interface PayClientProps {
   pkg: ServicePackage;
@@ -118,6 +119,7 @@ export default function PayClient({ pkg, landscaperRef, testCode }: PayClientPro
               : `Pay Securely Now — £${pkg.priceGBP.toLocaleString()} →`}
           </button>
           {error && <p className="mt-3 text-center text-sm text-red-600">{error}</p>}
+          <PaymentTrustBadges />
           <p className="mt-3 text-center text-xs text-stone-500">
             Payments are processed securely by Stripe. {pkg.turnaround}
           </p>
