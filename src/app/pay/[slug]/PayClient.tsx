@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { Check, Star } from "lucide-react";
 import type { ServicePackage } from "@/config/packages";
+import PayHeader from "@/components/PayHeader";
 
 interface PayClientProps {
   pkg: ServicePackage;
@@ -34,94 +36,117 @@ export default function PayClient({ pkg, landscaperRef, testCode }: PayClientPro
   }
 
   return (
-    <main className="min-h-screen bg-sage font-body text-forest">
+    <div className="min-h-screen flex flex-col font-body" style={{ backgroundColor: "#F5F5F0" }}>
+      <PayHeader trailing="Secure" />
+
       {testCode && (
         <div className="bg-red-600 px-4 py-2 text-center text-sm font-bold uppercase tracking-wide text-white">
           Test Mode — No Real Payment Will Be Taken
         </div>
       )}
-      <div className="mx-auto aspect-[1280/430] w-full max-w-3xl overflow-hidden sm:mt-8 sm:rounded-2xl">
+
+      <div className="w-full max-h-[32vh] overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={pkg.imageUrl}
-          alt={pkg.name}
-          className="h-full w-full object-cover"
-        />
+        <img src={pkg.imageUrl} alt={pkg.name} className="w-full h-full object-cover object-center" />
       </div>
-      <div className="mx-auto max-w-2xl px-6 py-12 sm:py-16">
-        <div className="mb-8 text-center">
-          <p className="mb-3 font-display text-sm font-bold uppercase tracking-wide text-forest">
-            Your Local Garden Designer
-          </p>
-          <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-gold">
+
+      <div className="flex-1 px-5 py-6 md:px-10 md:py-8 max-w-lg mx-auto w-full">
+        <div className="rounded-2xl bg-white shadow-sm border border-stone-100 p-5 md:p-6">
+          {pkg.mostPopular && (
+            <div className="flex justify-start mb-4">
+              <div
+                className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5"
+                style={{ borderWidth: 1, borderStyle: "solid", borderColor: "#C9A76A", backgroundColor: "#FFFBF1" }}
+              >
+                <Star size={14} style={{ color: "#C9A76A" }} fill="#C9A76A" />
+                <span className="text-xs font-bold uppercase tracking-wider" style={{ color: "#C9A76A" }}>
+                  Most Homeowners Choose This
+                </span>
+              </div>
+            </div>
+          )}
+
+          <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#C9A76A" }}>
             {pkg.eyebrow}
           </p>
-          <h1 className="font-display text-3xl font-bold text-forest sm:text-4xl">
+
+          <h1 className="text-[1.65rem] leading-[1.08] font-bold text-stone-950 mb-3 text-balance font-display">
             {pkg.name}
           </h1>
-          <p className="mt-3 text-base text-forest/80">{pkg.tagline}</p>
-          {pkg.mostPopular && (
-            <span className="mt-4 inline-block rounded-full bg-gold-light px-4 py-1 text-xs font-semibold uppercase tracking-wide text-forest">
-              Most Homeowners Choose This
-            </span>
-          )}
-        </div>
 
-        <div className="rounded-2xl border border-gold-border bg-white p-6 shadow-sm sm:p-8">
-          <p className="mb-1 text-sm text-forest/70">Your investment</p>
-          <p className="mb-6 font-display text-3xl font-bold text-forest">
-            {pkg.investmentLabel}
-          </p>
+          <p className="text-[16px] text-stone-600 leading-relaxed mb-5 text-pretty">{pkg.tagline}</p>
 
-          <h2 className="mb-4 font-display text-lg font-bold text-forest">
+          <div className="rounded-xl bg-stone-50 border border-stone-100 px-4 py-3 mb-5">
+            <p className="text-xs font-bold uppercase tracking-widest text-stone-500 mb-0.5">
+              Your Investment
+            </p>
+            <p className="text-2xl font-bold text-stone-950 font-display">{pkg.investmentLabel}</p>
+          </div>
+
+          <p className="text-xs font-bold uppercase tracking-widest text-stone-500 mb-3">
             What&rsquo;s Included
-          </h2>
-          <ul className="mb-8 space-y-3">
+          </p>
+          <div className="space-y-3 mb-6">
             {pkg.features.map((feature) => (
-              <li key={feature} className="flex gap-3 text-sm text-forest/90">
-                <span className="mt-0.5 flex-shrink-0 text-gold">✓</span>
-                <span>{feature}</span>
-              </li>
+              <div key={feature} className="flex gap-3">
+                <div
+                  className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5"
+                  style={{ backgroundColor: "#C9A76A" }}
+                >
+                  <Check size={12} className="text-white" strokeWidth={3} />
+                </div>
+                <p className="text-[15px] text-stone-700 leading-snug">{feature}</p>
+              </div>
             ))}
-          </ul>
+          </div>
 
-          <h2 className="mb-3 font-display text-lg font-bold text-forest">
+          <p className="text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">
             How This Works — Design And Matching
-          </h2>
-          <p className="mb-8 text-sm leading-relaxed text-forest/90">{pkg.howItWorksBody}</p>
+          </p>
+          <p className="text-[15px] text-stone-600 leading-relaxed mb-6 text-pretty">
+            {pkg.howItWorksBody}
+          </p>
 
           <button
             onClick={handlePay}
             disabled={loading}
-            className="w-full rounded-xl bg-forest px-6 py-4 text-center font-display text-lg font-bold text-white transition hover:bg-forest-light disabled:opacity-60"
+            className="w-full py-4 rounded-xl font-bold text-base text-white transition-all duration-150 active:scale-[0.98] disabled:opacity-60"
+            style={{ backgroundColor: "#1E3A2F" }}
           >
-            {loading ? "Redirecting To Secure Checkout…" : `Pay Securely Now — £${pkg.priceGBP.toLocaleString()}`}
+            {loading
+              ? "Redirecting To Secure Checkout…"
+              : `Pay Securely Now — £${pkg.priceGBP.toLocaleString()} →`}
           </button>
           {error && <p className="mt-3 text-center text-sm text-red-600">{error}</p>}
-          <p className="mt-3 text-center text-xs text-forest/60">
+          <p className="mt-3 text-center text-xs text-stone-500">
             Payments are processed securely by Stripe. {pkg.turnaround}
           </p>
 
-          <div className="mt-8 border-t border-gold-border pt-6">
-            <h2 className="mb-3 font-display text-base font-bold text-forest">
+          <div className="mt-6 pt-6 border-t border-stone-100">
+            <p className="text-xs font-bold uppercase tracking-widest text-stone-500 mb-4">
               What Happens Next
-            </h2>
-            <ol className="space-y-2 text-sm text-forest/90">
+            </p>
+            <div className="space-y-4">
               {pkg.nextSteps.map((step, i) => (
-                <li key={step} className="flex gap-3">
-                  <span className="flex-shrink-0 font-display font-bold text-gold">{i + 1}</span>
-                  <span>{step}</span>
-                </li>
+                <div key={step} className="flex gap-3">
+                  <div
+                    className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-white text-xs font-bold"
+                    style={{ backgroundColor: "#1E3A2F" }}
+                  >
+                    {i + 1}
+                  </div>
+                  <p className="text-[15px] text-stone-700 leading-relaxed pt-0.5">{step}</p>
+                </div>
               ))}
-            </ol>
+            </div>
           </div>
         </div>
 
-        <p className="mt-8 text-center text-xs text-forest/60">
+        <p className="mt-6 text-center text-xs text-stone-400">
           Your Local Garden Designer · an independent design &amp; matching service ·
           yourlocalgardendesigner.co.uk
         </p>
       </div>
-    </main>
+    </div>
   );
 }
