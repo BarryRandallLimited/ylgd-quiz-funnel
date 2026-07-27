@@ -38,9 +38,10 @@ export const PACKAGES: Record<PackageSlug, ServicePackage> = {
     tagline: "On-site consultation and written recommendation",
     priceGBP: 300,
     investmentLabel: "£300 one-off · on-site",
-    turnaround: "Once payment is received, we'll get you booked in within 3-5 working days.",
+    turnaround:
+      "Once payment is received, we'll call you within 24 hours on weekdays, or by Monday morning if it's over the weekend, to arrange your on-site visit.",
     successMessage:
-      "Thank you for booking The Consultation. Our team will call you within the next 3-5 working days to confirm the date and time of your on-site visit.",
+      "Thank you for booking The Consultation. We'll call you within 24 hours on weekdays, or by Monday morning if it's over the weekend, to confirm the date and time of your on-site visit.",
     imageUrl: "/images/consultation.jpg",
     features: [
       "A professional on-site visit to see and understand your space",
