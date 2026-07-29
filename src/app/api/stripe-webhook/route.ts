@@ -3,7 +3,7 @@ import Stripe from "stripe";
 import { getPackage } from "@/config/packages";
 
 /**
- * Stripe webhook — fires when a checkout session completes.
+ * Stripe webhook: fires when a checkout session completes.
  *
  * Mirrors the redundancy pattern in src/app/api/submit-lead/route.ts: the
  * Orders table in Airtable is the durable record, written first. GHL is
@@ -18,7 +18,7 @@ import { getPackage } from "@/config/packages";
  * (each registered separately in the Stripe dashboard, under Live mode and
  * Test mode respectively, but pointing at the same URL). Since Stripe signs
  * live and test events with different secrets, signature verification tries
- * the live secret first, then falls back to the test secret — whichever
+ * the live secret first, then falls back to the test secret, and whichever
  * succeeds tells us which one it was. Stripe's own event.livemode flag
  * confirms it either way, so this is never ambiguous.
  */
@@ -163,7 +163,7 @@ export async function POST(req: NextRequest) {
   try {
     event = stripe.webhooks.constructEvent(rawBody, signature, STRIPE_WEBHOOK_SECRET);
   } catch {
-    // Not a live-signed event — try the test secret before giving up.
+    // Not a live-signed event. Try the test secret before giving up.
     if (STRIPE_WEBHOOK_SECRET_TEST) {
       try {
         event = stripe.webhooks.constructEvent(rawBody, signature, STRIPE_WEBHOOK_SECRET_TEST);
@@ -198,7 +198,7 @@ export async function POST(req: NextRequest) {
     customerPhone: session.customer_details?.phone || "",
     landscaperRef: session.metadata?.landscaperRef || "",
     purchasedAt: new Date().toISOString(),
-    // event.livemode is Stripe's own authoritative flag — set by Stripe
+    // event.livemode is Stripe's own authoritative flag, set by Stripe
     // itself, not by anything in our request, so it can't be spoofed by a
     // client-supplied field.
     isTest: !event.livemode,

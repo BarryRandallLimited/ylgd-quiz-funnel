@@ -10,12 +10,12 @@ import type { QuizAnswers, PriceResult } from "./types";
 const BASE_RATE_PER_SQM = 300;
 const LANDSCAPING_FLOOR = 25_000;
 
-// Barry requested every ballpark figure raised 25% across the board
-// (WhatsApp, 2026-07-25), to give more room before speaking to the
+// Barry requested every ballpark figure LOWERED 25% across the board
+// (WhatsApp, 2026-07-25), to reduce friction before speaking to the
 // designer/sales assistant. Applied once here so base build, feature
 // add-ons, and the resulting low/mid/high all scale together consistently
 // rather than only nudging the final displayed number.
-const ESTIMATE_ADJUSTMENT_MULTIPLIER = 1.25;
+const ESTIMATE_ADJUSTMENT_MULTIPLIER = 0.75;
 
 const GARDEN_M2: Record<string, number> = {
   small: 75,

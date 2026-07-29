@@ -42,7 +42,7 @@ export default function PayClient({ pkg, landscaperRef, testCode }: PayClientPro
 
       {testCode && (
         <div className="bg-red-600 px-4 py-2 text-center text-sm font-bold uppercase tracking-wide text-white">
-          Test Mode — No Real Payment Will Be Taken
+          Test Mode: No Real Payment Will Be Taken
         </div>
       )}
 
@@ -102,7 +102,7 @@ export default function PayClient({ pkg, landscaperRef, testCode }: PayClientPro
           </div>
 
           <p className="text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">
-            How This Works — Design And Matching
+            How This Works: Design And Matching
           </p>
           <p className="text-[15px] text-stone-600 leading-relaxed mb-6 text-pretty">
             {pkg.howItWorksBody}
@@ -116,7 +116,7 @@ export default function PayClient({ pkg, landscaperRef, testCode }: PayClientPro
           >
             {loading
               ? "Redirecting To Secure Checkout…"
-              : `Pay Securely Now — £${pkg.priceGBP.toLocaleString()} →`}
+              : `Pay Securely Now · £${pkg.priceGBP.toLocaleString()} →`}
           </button>
           {error && <p className="mt-3 text-center text-sm text-red-600">{error}</p>}
           <PaymentTrustBadges />

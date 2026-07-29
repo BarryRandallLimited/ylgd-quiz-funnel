@@ -7,7 +7,7 @@ interface PageProps {
 }
 
 export const metadata = {
-  title: "Payment Confirmed — Your Local Garden Designer",
+  title: "Payment Confirmed | Your Local Garden Designer",
 };
 
 export default async function SuccessPage({ searchParams }: PageProps) {
@@ -30,7 +30,7 @@ export default async function SuccessPage({ searchParams }: PageProps) {
           </h1>
           <p className="text-[16px] text-stone-600 leading-relaxed text-pretty">
             {pkg?.successMessage ||
-              "Thank you — your payment has gone through. Our team will be in touch shortly to arrange next steps."}
+              "Thank you. Your payment has gone through, and our team will be in touch shortly to arrange next steps."}
           </p>
           <p className="mt-8 text-xs text-stone-400">
             Your Local Garden Designer · an independent design &amp; matching service ·

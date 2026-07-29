@@ -10,11 +10,11 @@ import { getPackage } from "@/config/packages";
  * from the 2026-07-21 voice note: landscapers must never collect payment
  * directly, so YLGD can distribute each landscaper's share manually rather
  * than chasing them for it). So this always uses YLGD's own Stripe account
- * — there is no separate "pay the landscaper" path.
+ * there is no separate "pay the landscaper" path.
  *
  * landscaperRef (optional) identifies which landscaper's link the buyer
  * came from, for commission attribution. It's stored in Stripe metadata and
- * copied into the Orders table by the webhook — never used to route money.
+ * copied into the Orders table by the webhook, but never used to route money.
  *
  * Test mode: real pages always use the live key by default. Appending
  * ?test=<STRIPE_TEST_ACCESS_CODE> to any pay page switches just that
@@ -22,7 +22,7 @@ import { getPackage } from "@/config/packages";
  * card 4242 4242 4242 4242 → webhook → Airtable → GHL) can happen anytime
  * without touching real money or swapping any env vars. If a testCode is
  * supplied but doesn't match, the request is rejected outright rather than
- * silently falling back to live — a mistyped code should never turn into an
+ * silently falling back to live: a mistyped code should never turn into an
  * accidental real charge.
  */
 

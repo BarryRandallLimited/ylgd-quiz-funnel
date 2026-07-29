@@ -120,7 +120,7 @@ function mapRecordToLandscaper(record: AirtableRecord): LandscaperData {
 
 /**
  * Fetches active landscapers from Airtable, keyed by their Slug field.
- * Unlike regions, there's no hardcoded fallback list — a landscaper link is a
+ * Unlike regions, there's no hardcoded fallback list: a landscaper link is a
  * personal attribution link, not core site navigation, so if Airtable is
  * unreachable the /pay/l/[landscaper] page should 404 rather than show
  * something misleading.

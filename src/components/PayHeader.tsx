@@ -4,8 +4,8 @@ import { Leaf } from "lucide-react";
  * The same dark header bar / leaf mark used at the top of every quiz screen
  * (see QuizLayout.tsx), reused here so the pay. pages read as the same
  * product rather than a bolted-on checkout flow. No back button or step
- * counter — those only make sense in the sequential quiz, not a standalone
- * purchase page — but `trailing` can carry a small reassurance label instead.
+ * counter, since those only make sense in the sequential quiz, not a standalone
+ * purchase page, but `trailing` can carry a small reassurance label instead.
  */
 interface PayHeaderProps {
   trailing?: string;

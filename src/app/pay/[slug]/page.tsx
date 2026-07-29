@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const pkg = getPackage(slug);
   if (!pkg) return {};
   return {
-    title: `${pkg.name} — Your Local Garden Designer`,
+    title: `${pkg.name} | Your Local Garden Designer`,
     description: pkg.tagline,
   };
 }

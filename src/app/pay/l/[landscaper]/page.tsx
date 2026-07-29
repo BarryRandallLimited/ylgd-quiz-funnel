@@ -11,7 +11,7 @@ import PayHeader from "@/components/PayHeader";
  * One link per landscaper, not one per package: whoever's selling on the
  * call doesn't always know in advance which of the 4 packages a prospect
  * will land on, so this shows all four and tags whichever one gets clicked
- * with ?ref=[slug] — same attribution mechanism already used everywhere else
+ * with ?ref=[slug], the same attribution mechanism already used everywhere else
  * (Orders table "Landscaper Ref", GHL webhook payload).
  *
  * Region is deliberately NOT part of this URL. A landscaper's region is
@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const landscaper = await getLandscaperBySlug(slug);
   if (!landscaper) return {};
   return {
-    title: `${landscaper.businessName} — Your Local Garden Designer`,
+    title: `${landscaper.businessName} | Your Local Garden Designer`,
     robots: { index: false }, // personal referral links shouldn't show up in search
   };
 }

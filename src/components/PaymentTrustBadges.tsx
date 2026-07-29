@@ -5,7 +5,8 @@ import { Lock } from "lucide-react";
  * Checkout" lock label plus small Visa / Mastercard / Stripe chips, so
  * visitors recognize familiar, legitimate payment options before clicking
  * through to Stripe's hosted checkout. Built as simple inline SVG/text
- * rather than sourced logo files — no external assets, nothing to license.
+ * rather than sourced logo files, so there are no external assets and
+ * nothing to license.
  */
 export default function PaymentTrustBadges() {
   return (

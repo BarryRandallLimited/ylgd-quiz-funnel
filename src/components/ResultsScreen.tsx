@@ -162,7 +162,7 @@ export default function ResultsScreen({ result, countyList }: ResultsScreenProps
             </p>
           </div>
           <p className="text-white/65 text-xs text-center leading-relaxed">
-            This is an online estimate, not a quote — actual costs depend on the complexity and
+            This is an online estimate, not a quote. Actual costs depend on the complexity and
             specification of your project. Speaking with our designer is the best way to get an
             accurate figure for your garden.
           </p>

@@ -12,7 +12,7 @@ import { normalizeAnyToE164 } from "@/lib/phone";
  * This route writes every submission to the Airtable Leads table first,
  * which is the durable record, then forwards it to GHL, then updates the
  * same Airtable record with whether the GHL forward succeeded. The visitor's
- * experience never depends on GHL succeeding — the lead is safe the moment
+ * experience never depends on GHL succeeding: the lead is safe the moment
  * it's in Airtable.
  */
 
