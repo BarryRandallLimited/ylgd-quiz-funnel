@@ -10,6 +10,13 @@ import type { QuizAnswers, PriceResult } from "./types";
 const BASE_RATE_PER_SQM = 300;
 const LANDSCAPING_FLOOR = 25_000;
 
+// Barry requested every ballpark figure raised 25% across the board
+// (WhatsApp, 2026-07-25), to give more room before speaking to the
+// designer/sales assistant. Applied once here so base build, feature
+// add-ons, and the resulting low/mid/high all scale together consistently
+// rather than only nudging the final displayed number.
+const ESTIMATE_ADJUSTMENT_MULTIPLIER = 1.25;
+
 const GARDEN_M2: Record<string, number> = {
   small: 75,
   medium: 175,
@@ -53,16 +60,20 @@ export function calculatePrice(answers: QuizAnswers): PriceResult {
   const m2 = GARDEN_M2[sizeKey] ?? 175;
   const multiplier = FINISH_MULTIPLIER[finishKey] ?? 1.0;
 
-  const rawBase = m2 * BASE_RATE_PER_SQM * multiplier;
-  const baseBuild = Math.max(LANDSCAPING_FLOOR, rawBase);
+  const rawBase = m2 * BASE_RATE_PER_SQM * multiplier * ESTIMATE_ADJUSTMENT_MULTIPLIER;
+  const baseBuild = Math.max(LANDSCAPING_FLOOR * ESTIMATE_ADJUSTMENT_MULTIPLIER, rawBase);
 
   const featureBreakdown: Array<{ label: string; from: number }> = [];
   let featureTotal = 0;
   const f = answers.features;
   for (const [key, selected] of Object.entries(f)) {
     if (selected && FEATURE_ADDONS[key]) {
-      featureBreakdown.push(FEATURE_ADDONS[key]);
-      featureTotal += FEATURE_ADDONS[key].from;
+      const adjusted = {
+        label: FEATURE_ADDONS[key].label,
+        from: Math.round(FEATURE_ADDONS[key].from * ESTIMATE_ADJUSTMENT_MULTIPLIER),
+      };
+      featureBreakdown.push(adjusted);
+      featureTotal += adjusted.from;
     }
   }
 
