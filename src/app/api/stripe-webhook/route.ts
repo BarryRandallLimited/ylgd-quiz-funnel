@@ -52,9 +52,11 @@ interface OrderPayload {
   customerName: string;
   customerEmail: string;
   customerPhone: string;
+  customerPostcode: string;
   landscaperRef: string;
   purchasedAt: string;
   isTest: boolean;
+  successMessage: string;
 }
 
 async function createOrderRecord(order: OrderPayload): Promise<string | undefined> {
@@ -71,6 +73,7 @@ async function createOrderRecord(order: OrderPayload): Promise<string | undefine
     "Customer Name": order.customerName,
     "Customer Email": order.customerEmail,
     "Customer Phone": order.customerPhone,
+    "Customer Postcode": order.customerPostcode,
     "Landscaper Ref": order.landscaperRef,
     "Payment Status": "Paid",
     "GHL Sync Status": "Pending",
@@ -125,12 +128,17 @@ async function forwardToGHL(order: OrderPayload): Promise<{ ok: boolean; error?:
         last_name: order.customerName.split(" ").slice(1).join(" "),
         email: order.customerEmail,
         phone: order.customerPhone,
+        postcode: order.customerPostcode,
         // Prefixed so the notification message reads "[TEST ORDER] The
         // Consultation" without needing conditional logic inside GHL itself.
         package: order.isTest ? `[TEST ORDER] ${order.packageName}` : order.packageName,
         package_slug: order.packageSlug,
         amount_gbp: order.amountGBP,
         landscaper_ref: order.landscaperRef,
+        // Same "what happens next" copy shown on the on-page success screen
+        // (src/config/packages.ts successMessage), reused here so the buyer
+        // still gets it even if they close the tab before seeing that page.
+        success_message: order.successMessage,
         tags: order.isTest
           ? ["test-order", `package-${order.packageSlug}`]
           : ["order-purchased", `package-${order.packageSlug}`],
@@ -196,12 +204,16 @@ export async function POST(req: NextRequest) {
     customerName: session.customer_details?.name || "",
     customerEmail: session.customer_details?.email || "",
     customerPhone: session.customer_details?.phone || "",
+    customerPostcode: session.customer_details?.address?.postal_code || "",
     landscaperRef: session.metadata?.landscaperRef || "",
     purchasedAt: new Date().toISOString(),
     // event.livemode is Stripe's own authoritative flag, set by Stripe
     // itself, not by anything in our request, so it can't be spoofed by a
     // client-supplied field.
     isTest: !event.livemode,
+    successMessage:
+      pkg?.successMessage ||
+      "Thank you for your purchase. Our team will be in touch shortly to arrange next steps.",
   };
 
   const orderRecordId = await createOrderRecord(order);
