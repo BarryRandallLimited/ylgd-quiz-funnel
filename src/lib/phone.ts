@@ -25,10 +25,46 @@ export const COUNTRY_CODE_OPTIONS: CountryCodeOption[] = [
 
 export const DEFAULT_COUNTRY_DIAL_CODE = "44";
 
-const NATIONAL_MIN_DIGITS = 8;
-const NATIONAL_MAX_DIGITS = 10;
 const ASCENDING_DIGITS = "01234567890123456789";
 const DESCENDING_DIGITS = "98765432109876543210";
+
+/**
+ * Per-country rules for the national significant number (NSN) - the part of
+ * the number left after the country code and any trunk prefix are removed.
+ *
+ * min/max: UK numbers (mobile and landline) are always exactly 10 digits
+ * once the trunk zero is stripped, so a UK entry missing 1-2 digits used to
+ * slip through under the old shared 8-10 range. Ireland genuinely varies
+ * (Dublin landlines can be 8, mobiles are 9), so it keeps a range. Spain is
+ * always exactly 9.
+ *
+ * hasTrunkZero: UK and Ireland numbers are dialled nationally with a
+ * leading 0 that isn't part of the number (07911 123456 -> 7911123456).
+ * Spanish numbers don't have this - they're dialled in full, so a leading
+ * 0 (if one ever appeared) would actually be part of the number and must
+ * not be stripped.
+ *
+ * Unknown dial codes (e.g. a country added to COUNTRY_CODE_OPTIONS without
+ * a matching rule here) fall back to the old generic 8-10/hasTrunkZero
+ * behaviour rather than rejecting everything outright.
+ */
+interface CountryDigitRule {
+  min: number;
+  max: number;
+  hasTrunkZero: boolean;
+}
+
+const COUNTRY_DIGIT_RULES: Record<string, CountryDigitRule> = {
+  "44": { min: 10, max: 10, hasTrunkZero: true }, // UK
+  "353": { min: 8, max: 9, hasTrunkZero: true }, // Ireland
+  "34": { min: 9, max: 9, hasTrunkZero: false }, // Spain
+};
+
+const DEFAULT_DIGIT_RULE: CountryDigitRule = { min: 8, max: 10, hasTrunkZero: true };
+
+function digitRuleFor(dialCode: string): CountryDigitRule {
+  return COUNTRY_DIGIT_RULES[dialCode] ?? DEFAULT_DIGIT_RULE;
+}
 
 export function getDigits(value: string): string {
   return value.replace(/\D/g, "");
@@ -49,13 +85,14 @@ function stripDialCodeIfPresent(digits: string, dialCode: string): string {
 
 /**
  * Reduces raw input down to the "national significant number": digits only,
- * no country code, no leading trunk zero. This is the canonical form both
- * the sense-check and the E.164 builder work from.
+ * no country code, no leading trunk zero (where the selected country uses
+ * one - see hasTrunkZero above). This is the canonical form both the
+ * sense-check and the E.164 builder work from.
  */
 export function toNationalSignificantNumber(rawValue: string, dialCode: string): string {
   let digits = getDigits(rawValue);
   digits = stripDialCodeIfPresent(digits, dialCode);
-  if (digits.startsWith("0")) {
+  if (digitRuleFor(dialCode).hasTrunkZero && digits.startsWith("0")) {
     digits = digits.slice(1);
   }
   return digits;
@@ -78,8 +115,9 @@ export function toE164(rawValue: string, dialCode: string): string {
  */
 export function isPlausiblePhoneNumber(rawValue: string, dialCode: string): boolean {
   const nsn = toNationalSignificantNumber(rawValue, dialCode);
+  const rule = digitRuleFor(dialCode);
 
-  if (nsn.length < NATIONAL_MIN_DIGITS || nsn.length > NATIONAL_MAX_DIGITS) {
+  if (nsn.length < rule.min || nsn.length > rule.max) {
     return false;
   }
 
