@@ -85,8 +85,8 @@ export default function HomeLanding() {
           />
         </div>
 
-        <div className="flex flex-col md:w-1/2">
-          <div className="px-5 pt-8 pb-8 md:pt-14 md:pb-12 md:pl-12 md:pr-10" style={{ backgroundColor: "#1E3A2F" }}>
+        <div className="flex flex-col md:w-1/2" style={{ backgroundColor: "#1E3A2F" }}>
+          <div className="px-5 pt-8 pb-8 md:pt-14 md:pb-12 md:pl-12 md:pr-10 md:flex-1 md:flex md:flex-col md:justify-center">
             <div className="max-w-lg mx-auto md:mx-0">
               <div
                 className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 mb-4"
