@@ -1,6 +1,6 @@
 "use client";
 
-import { Leaf, ChevronLeft } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 
 interface QuizLayoutProps {
   children: React.ReactNode;
@@ -52,12 +52,11 @@ export default function QuizLayout({
 
           {/* Brand mark */}
           <div className="flex items-center gap-2">
-            <div
-              className="w-7 h-7 rounded-full flex items-center justify-center"
-              style={{ backgroundColor: "#C9A76A" }}
-            >
-              <Leaf size={14} className="text-white" />
-            </div>
+            <img
+              src="/images/brand/ylgd-mark-round.svg"
+              alt="Your Local Garden Designer"
+              className="w-7 h-7 rounded-full"
+            />
             <span
               className="font-semibold text-sm tracking-tight text-white font-display"
             >

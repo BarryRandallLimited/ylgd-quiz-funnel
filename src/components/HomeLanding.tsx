@@ -1,4 +1,7 @@
-import { Check, Leaf, Star } from "lucide-react";
+"use client";
+
+import { useEffect, useState } from "react";
+import { Check, Star } from "lucide-react";
 import { founderProfile } from "@/config/regions";
 
 /**
@@ -15,12 +18,13 @@ import { founderProfile } from "@/config/regions";
  * (founderProfile in src/config/regions.ts) rather than the old site's
  * stale "500+ gardens / 20+ years" figures.
  *
- * The CTA links out to the live, already-wired quiz funnel on the find.
- * subdomain rather than reimplementing a standalone contact form, so there
- * is exactly one lead pipeline (Airtable + GHL) instead of two.
+ * The CTA opens the GHL booking widget in an in-page modal (rather than the
+ * find. quiz funnel used elsewhere on the site) so ad traffic landing here
+ * can book a slot directly without a full page reload. This is specific to
+ * this page only; the quiz funnel's own CTAs are untouched.
  */
 
-const QUIZ_URL = "https://find.yourlocalgardendesigner.co.uk/";
+const BOOKING_URL = "https://go.yourlocalgardendesigner.com/widget/booking/FBvXsm2kuizMFl7LCTKj";
 
 const galleryImages = [
   { src: "/images/home/gallery-1.jpg", alt: "Landscaped garden with structured planting and a stone patio" },
@@ -58,15 +62,65 @@ const stats = [
   { value: "33+ yrs", label: "Design and build expertise" },
 ];
 
+function BookingModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-end md:items-center justify-center"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Book your free design consultation"
+    >
+      <div className="absolute inset-0 bg-black/60" onClick={onClose} />
+      <div className="relative bg-white w-full h-[94vh] rounded-t-2xl md:rounded-2xl md:max-w-lg md:h-[85vh] shadow-xl flex flex-col overflow-hidden">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-stone-100 shrink-0">
+          <span className="font-semibold text-[15px] text-stone-900 font-display">Book Your Free Consultation</span>
+          <button
+            onClick={onClose}
+            aria-label="Close booking form"
+            className="w-8 h-8 flex items-center justify-center rounded-full text-stone-500 text-xl leading-none hover:bg-stone-100"
+          >
+            &times;
+          </button>
+        </div>
+        <iframe
+          src={BOOKING_URL}
+          title="Book your free design consultation"
+          className="flex-1 w-full border-0"
+        />
+      </div>
+    </div>
+  );
+}
+
 export default function HomeLanding() {
+  const [showBooking, setShowBooking] = useState(false);
+
   return (
     <div className="font-body" style={{ backgroundColor: "#F5F5F0" }}>
       {/* Header */}
       <header className="flex items-center justify-center px-5 py-4" style={{ backgroundColor: "#1E3A2F" }}>
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: "#C9A76A" }}>
-            <Leaf size={16} className="text-white" />
-          </div>
+          <img
+            src="/images/brand/ylgd-mark-round.svg"
+            alt="Your Local Garden Designer"
+            className="w-8 h-8 rounded-full"
+          />
           <span className="font-semibold text-base tracking-tight text-white font-display">
             Your Local Garden Designer
           </span>
@@ -107,13 +161,14 @@ export default function HomeLanding() {
                 people you can rely on, right in your area.
               </p>
 
-              <a
-                href={QUIZ_URL}
+              <button
+                type="button"
+                onClick={() => setShowBooking(true)}
                 className="inline-block w-full text-center py-4 rounded-xl font-bold text-base transition-all duration-150 active:scale-[0.98] text-stone-900"
                 style={{ backgroundColor: "#C9A76A" }}
               >
                 Get My Free Design Consultation &rarr;
-              </a>
+              </button>
               <p className="text-white/60 text-[13px] text-center mt-3">
                 No obligation &middot; reply within minutes
               </p>
@@ -234,13 +289,14 @@ export default function HomeLanding() {
           Book your free, no-obligation design consultation. We&rsquo;ll match you with a trusted local specialist
           and handle the rest.
         </p>
-        <a
-          href={QUIZ_URL}
+        <button
+          type="button"
+          onClick={() => setShowBooking(true)}
           className="inline-block px-8 py-4 rounded-xl font-bold text-base transition-all duration-150 active:scale-[0.98] text-stone-900"
           style={{ backgroundColor: "#C9A76A" }}
         >
           Get My Free Design Consultation &rarr;
-        </a>
+        </button>
       </section>
 
       {/* Footer */}
@@ -255,6 +311,8 @@ export default function HomeLanding() {
           <a href="/terms-of-use" className="hover:text-stone-600">Terms Of Use</a>
         </div>
       </footer>
+
+      <BookingModal open={showBooking} onClose={() => setShowBooking(false)} />
     </div>
   );
 }

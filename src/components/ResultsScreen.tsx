@@ -63,9 +63,11 @@ export default function ResultsScreen({ result, countyList }: ResultsScreenProps
       {/* Header */}
       <div className="flex items-center justify-center px-5 py-4" style={{ backgroundColor: "#1E3A2F" }}>
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-full flex items-center justify-center" style={{ backgroundColor: "#C9A76A" }}>
-            <span className="text-white text-xs font-bold">🌿</span>
-          </div>
+          <img
+            src="/images/brand/ylgd-mark-round.svg"
+            alt="Your Local Garden Designer"
+            className="w-7 h-7 rounded-full"
+          />
           <span className="font-semibold text-sm tracking-tight text-white font-display">
             Your Local Garden Designer
           </span>

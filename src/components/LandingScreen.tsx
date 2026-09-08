@@ -1,6 +1,5 @@
 "use client";
 
-import { Leaf } from "lucide-react";
 import type { RegionData } from "@/lib/types";
 
 interface LandingScreenProps {
@@ -28,9 +27,11 @@ export default function LandingScreen({ region, onStart }: LandingScreenProps) {
           <div className="max-w-lg mx-auto md:mx-0">
             {/* Brand mark */}
             <div className="flex items-center gap-2 mb-4 md:mb-8">
-              <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: "#C9A76A" }}>
-                <Leaf size={16} className="text-white" />
-              </div>
+              <img
+                src="/images/brand/ylgd-mark-round.svg"
+                alt="Your Local Garden Designer"
+                className="w-8 h-8 rounded-full"
+              />
               <span className="font-semibold text-base tracking-tight text-white font-display">
                 Your Local Garden Designer
               </span>

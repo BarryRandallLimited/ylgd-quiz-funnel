@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Leaf } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Terms Of Use | Your Local Garden Designer",
@@ -17,9 +16,11 @@ export default function TermsOfUsePage() {
     <div className="font-body" style={{ backgroundColor: "#F5F5F0" }}>
       <header className="flex items-center justify-center px-5 py-4" style={{ backgroundColor: "#1E3A2F" }}>
         <a href="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: "#C9A76A" }}>
-            <Leaf size={16} className="text-white" />
-          </div>
+          <img
+            src="/images/brand/ylgd-mark-round.svg"
+            alt="Your Local Garden Designer"
+            className="w-8 h-8 rounded-full"
+          />
           <span className="font-semibold text-base tracking-tight text-white font-display">
             Your Local Garden Designer
           </span>
