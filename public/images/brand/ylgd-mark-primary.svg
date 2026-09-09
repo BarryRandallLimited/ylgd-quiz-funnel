@@ -1,11 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 480" role="img" aria-label="Your Local Garden Designer">
-  <title>Your Local Garden Designer, primary lockup, ink on paper</title>
-  <rect x="0" y="0" width="400" height="480" fill="#F4EFE4"/>
-  <rect x="14" y="14" width="372" height="452" fill="none" stroke="#2A2A22" stroke-width="5"/>
-  <rect x="26" y="26" width="348" height="428" fill="none" stroke="#2A2A22" stroke-width="2"/>
-  <text x="200" y="128" text-anchor="middle" font-family="'Century Gothic','Futura','URW Geometric',sans-serif" font-size="24" letter-spacing="14" fill="#2A2A22" font-weight="400">YOUR</text>
-  <text x="200" y="228" text-anchor="middle" font-family="'Century Gothic','Futura','URW Geometric',sans-serif" font-size="82" letter-spacing="4" fill="#2A2A22" font-weight="500">LOCAL</text>
-  <text x="200" y="288" text-anchor="middle" font-family="'Century Gothic','Futura','URW Geometric',sans-serif" font-size="30" letter-spacing="5" fill="#2A2A22" font-weight="400">GARDEN</text>
-  <text x="200" y="330" text-anchor="middle" font-family="'Century Gothic','Futura','URW Geometric',sans-serif" font-size="30" letter-spacing="5" fill="#2A2A22" font-weight="400">DESIGNER</text>
-  <line x1="160" y1="360" x2="240" y2="360" stroke="#2F5D3A" stroke-width="3"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 300" role="img" aria-label="Your Local Garden Designer logo">
+  <title>Your Local Garden Designer — primary logo</title>
+  <rect x="14" y="14" width="592" height="272" rx="16" fill="#F4EFE4" stroke="#2A2A22" stroke-width="5"/>
+  <rect x="30" y="30" width="560" height="240" rx="10" fill="none" stroke="#2A2A22" stroke-width="2"/>
+  <text x="310" y="80" text-anchor="middle" font-family="'Century Gothic','Futura','URW Geometric',sans-serif" font-size="26" letter-spacing="18" fill="#2A2A22" font-weight="400">YOUR</text>
+  <text x="310" y="166" text-anchor="middle" font-family="'Century Gothic','Futura','URW Geometric',sans-serif" font-size="102" letter-spacing="8" fill="#2A2A22" font-weight="500">LOCAL</text>
+  <text x="310" y="212" text-anchor="middle" font-family="'Century Gothic','Futura','URW Geometric',sans-serif" font-size="40" letter-spacing="7" fill="#2A2A22" font-weight="400">GARDEN DESIGNER</text>
+  <line x1="262" y1="234" x2="358" y2="234" stroke="#5C6B4C" stroke-width="3"/>
+  <text x="310" y="260" text-anchor="middle" font-family="'Century Gothic','Futura','URW Geometric',sans-serif" font-size="15" letter-spacing="7" fill="#5C6B4C" font-weight="400">DESIGN · BUILD · NEAR YOU</text>
 </svg>

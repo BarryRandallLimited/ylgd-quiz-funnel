@@ -100,8 +100,8 @@ export default function MagazineLandingBrandTest() {
 
       <div className="max-w-5xl mx-auto px-5 md:px-10">
         {/* Hero */}
-        <section className="grid md:grid-cols-2 gap-10 md:gap-14 items-center py-10 md:py-16">
-          <div className="order-2 md:order-1">
+        <section className="py-10 md:py-16">
+          <div className="max-w-2xl mx-auto">
             <p
               className="text-xs font-semibold uppercase mb-4"
               style={{ fontFamily: DISPLAY_FONT, letterSpacing: "0.18em", color: GREEN }}
@@ -109,11 +109,22 @@ export default function MagazineLandingBrandTest() {
               Free Monthly Magazine
             </p>
             <h1
-              className="uppercase font-medium leading-[1.15] mb-4 text-[1.7rem] md:text-[2.3rem] text-balance"
+              className="uppercase font-medium leading-[1.15] mb-8 text-[1.9rem] md:text-[2.5rem] text-balance"
               style={{ fontFamily: DISPLAY_FONT, letterSpacing: "0.02em" }}
             >
               Get This Month&rsquo;s Copy Of Dream Gardens &amp; Landscapes
             </h1>
+
+            <div className="max-w-[320px] mx-auto mb-8 border p-2" style={{ borderColor: INK }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={COVER_IMAGE}
+                alt="Dream Gardens and Landscapes magazine cover, September 2026 issue"
+                className="w-full h-auto block"
+                loading="eager"
+              />
+            </div>
+
             <p className="text-[16px] leading-relaxed mb-6 text-pretty" style={{ color: "rgba(42,42,34,0.75)" }}>
               Seasonal planting advice, design ideas and tips from our network of garden designers, free to
               download every month.
@@ -234,18 +245,6 @@ export default function MagazineLandingBrandTest() {
                   </a>
                 </>
               )}
-            </div>
-          </div>
-
-          <div className="order-1 md:order-2">
-            <div className="border p-2" style={{ borderColor: INK }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={COVER_IMAGE}
-                alt="Dream Gardens and Landscapes magazine cover, September 2026 issue"
-                className="w-full h-auto block"
-                loading="eager"
-              />
             </div>
           </div>
         </section>
