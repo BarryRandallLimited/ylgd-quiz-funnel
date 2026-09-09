@@ -31,7 +31,10 @@ export function middleware(req: NextRequest) {
   const isApexOrWww =
     hostname === "yourlocalgardendesigner.co.uk" || hostname === "www.yourlocalgardendesigner.co.uk";
   const alreadyUnderHome = pathname.startsWith("/home");
-  const isStandaloneLegalPage = pathname.startsWith("/privacy-policy") || pathname.startsWith("/terms-of-use");
+  const isStandaloneLegalPage =
+    pathname.startsWith("/privacy-policy") ||
+    pathname.startsWith("/terms-of-use") ||
+    pathname.startsWith("/magazine");
 
   if (isApexOrWww && !alreadyUnderHome && !isStandaloneLegalPage) {
     const url = req.nextUrl.clone();
