@@ -44,9 +44,9 @@ export default function LandingScreenBrandTest({ region, onStart }: LandingScree
             {/* Brand mark */}
             <div className="flex items-center gap-2 mb-4 md:mb-8">
               <img
-                src="/images/brand/ylgd-mark-reversed.svg"
+                src="/images/brand/ylgd-mark-primary.svg"
                 alt="Your Local Garden Designer"
-                className="h-10 w-auto"
+                className="h-10 w-auto rounded-sm"
               />
             </div>
 
@@ -55,8 +55,8 @@ export default function LandingScreenBrandTest({ region, onStart }: LandingScree
               className="inline-flex items-center gap-2 rounded-md px-3 py-1.5 mb-3 md:mb-5"
               style={{ backgroundColor: "rgba(47,93,58,0.12)", border: "1px solid rgba(47,93,58,0.35)" }}
             >
-              <span style={{ color: GREEN }} className="text-xs">★★★★★</span>
-              <span className="text-[11px] font-semibold leading-tight" style={{ color: GREEN }}>
+              <span style={{ color: "#9CAE84" }} className="text-xs">★★★★★</span>
+              <span className="text-[11px] font-semibold leading-tight" style={{ color: "rgba(244,239,228,0.9)" }}>
                 {region.badgeText}
               </span>
             </div>

@@ -78,9 +78,9 @@ export default function ResultsScreenBrandTest({ result, countyList }: ResultsSc
       {/* Header */}
       <div className="flex items-center justify-center px-5 py-4" style={{ backgroundColor: INK }}>
         <img
-          src="/images/brand/ylgd-mark-reversed.svg"
+          src="/images/brand/ylgd-mark-primary.svg"
           alt="Your Local Garden Designer"
-          className="h-9 w-auto"
+          className="h-9 w-auto rounded-sm"
         />
       </div>
 

@@ -69,9 +69,9 @@ export default function QuizLayoutBrandTest({
           {/* Brand mark */}
           <div className="flex items-center gap-2">
             <img
-              src="/images/brand/ylgd-mark-reversed.svg"
+              src="/images/brand/ylgd-mark-primary.svg"
               alt="Your Local Garden Designer"
-              className="h-9 w-auto"
+              className="h-9 w-auto rounded-sm"
             />
           </div>
 
