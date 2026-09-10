@@ -11,6 +11,18 @@ import {
 } from "@/lib/phone";
 import { checkEmail } from "@/lib/email";
 
+/**
+ * Contact details screen: name, phone, and email form with validation
+ * before handing off to the price calculation and lead submission.
+ */
+
+const INK = "#2A2A22";
+const PAPER = "#F4EFE4";
+const GREEN = "#2F5D3A";
+
+const DISPLAY_FONT = "'Century Gothic','Futura','URW Geometric','Jost',sans-serif";
+const BODY_FONT = "'Inter','Montserrat',sans-serif";
+
 interface ContactScreenProps {
   onSubmit: (contact: ContactDetails) => void;
   onBack: () => void;
@@ -95,46 +107,51 @@ export default function ContactScreen({
       onBack={onBack}
     >
       <div className="px-5 py-6 md:px-10 md:py-8 max-w-lg mx-auto md:mx-0 w-full">
-        <div className="rounded-2xl bg-white shadow-sm border border-stone-100 p-5 md:p-6">
+        <div className="rounded-md border p-5 md:p-6" style={{ borderColor: INK, backgroundColor: PAPER }}>
           <p
-            className="text-xs font-bold uppercase tracking-widest mb-2"
-            style={{ color: "#C9A76A" }}
+            className="text-xs font-semibold uppercase mb-2"
+            style={{ fontFamily: DISPLAY_FONT, letterSpacing: "0.14em", color: GREEN }}
           >
             Last step
           </p>
 
-          <h2 className="text-[1.65rem] leading-[1.08] font-bold text-stone-950 mb-3 text-balance font-display">
+          <h2
+            className="uppercase leading-[1.12] mb-3 text-balance text-[1.45rem]"
+            style={{ fontFamily: DISPLAY_FONT, letterSpacing: "0.02em", color: INK }}
+          >
             Where do we send your results?
           </h2>
 
-          <p className="text-[16px] text-stone-600 leading-relaxed mb-5 text-pretty">
+          <p className="text-[16px] leading-relaxed mb-5 text-pretty" style={{ color: "rgba(42,42,34,0.75)" }}>
             We'll show your matched designer and initial estimate on the next screen. No spam, ever.
           </p>
 
-          <div className="space-y-4 mb-5">
+          <div className="space-y-4 mb-5" style={{ fontFamily: BODY_FONT }}>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-sm font-semibold text-stone-700 mb-1">First name</label>
+                <label className="block text-sm font-semibold mb-1" style={{ color: INK }}>First name</label>
                 <input
                   type="text"
                   value={form.firstName}
                   onChange={(e) => updateField("firstName", e.target.value)}
-                  className="w-full px-3.5 py-3 rounded-xl border border-stone-200 bg-white text-stone-900 text-[16px] placeholder:text-stone-400 focus:outline-none focus:border-stone-400 transition-colors"
+                  className="w-full px-3.5 py-3 rounded-md border text-[16px] focus:outline-none transition-colors"
+                  style={{ borderColor: "rgba(42,42,34,0.25)", backgroundColor: PAPER, color: INK }}
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-stone-700 mb-1">Last name</label>
+                <label className="block text-sm font-semibold mb-1" style={{ color: INK }}>Last name</label>
                 <input
                   type="text"
                   value={form.lastName}
                   onChange={(e) => updateField("lastName", e.target.value)}
-                  className="w-full px-3.5 py-3 rounded-xl border border-stone-200 bg-white text-stone-900 text-[16px] placeholder:text-stone-400 focus:outline-none focus:border-stone-400 transition-colors"
+                  className="w-full px-3.5 py-3 rounded-md border text-[16px] focus:outline-none transition-colors"
+                  style={{ borderColor: "rgba(42,42,34,0.25)", backgroundColor: PAPER, color: INK }}
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-stone-700 mb-1">Mobile number</label>
+              <label className="block text-sm font-semibold mb-1" style={{ color: INK }}>Mobile number</label>
               <div className="flex gap-2">
                 <select
                   value={countryDialCode}
@@ -143,7 +160,8 @@ export default function ContactScreen({
                     if (phoneTouched) setPhoneTouched(false);
                   }}
                   aria-label="Country code"
-                  className="shrink-0 px-2 py-3 rounded-xl border border-stone-200 bg-white text-stone-900 text-[16px] focus:outline-none focus:border-stone-400 transition-colors"
+                  className="shrink-0 px-2 py-3 rounded-md border text-[16px] focus:outline-none transition-colors"
+                  style={{ borderColor: "rgba(42,42,34,0.25)", backgroundColor: PAPER, color: INK }}
                 >
                   {COUNTRY_CODE_OPTIONS.map((option) => (
                     <option key={option.dialCode} value={option.dialCode}>
@@ -157,20 +175,21 @@ export default function ContactScreen({
                   onChange={(e) => updateField("phone", e.target.value)}
                   onBlur={() => setPhoneTouched(true)}
                   placeholder="07911 123456"
-                  className={`w-full px-3.5 py-3 rounded-xl border bg-white text-stone-900 text-[16px] placeholder:text-stone-400 focus:outline-none transition-colors ${
-                    phoneError
-                      ? "border-red-400 focus:border-red-400"
-                      : "border-stone-200 focus:border-stone-400"
-                  }`}
+                  className="w-full px-3.5 py-3 rounded-md border text-[16px] focus:outline-none transition-colors"
+                  style={{
+                    backgroundColor: PAPER,
+                    color: INK,
+                    borderColor: phoneError ? "#9A3B2F" : "rgba(42,42,34,0.25)",
+                  }}
                 />
               </div>
               {phoneError && (
-                <p className="text-red-500 text-sm mt-1">{phoneError}</p>
+                <p className="text-sm mt-1" style={{ color: "#9A3B2F" }}>{phoneError}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-stone-700 mb-1">Email address</label>
+              <label className="block text-sm font-semibold mb-1" style={{ color: INK }}>Email address</label>
               <input
                 type="email"
                 value={form.email}
@@ -180,17 +199,18 @@ export default function ContactScreen({
                 }}
                 onBlur={() => setEmailTouched(true)}
                 onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
-                className={`w-full px-3.5 py-3 rounded-xl border bg-white text-stone-900 text-[16px] placeholder:text-stone-400 focus:outline-none transition-colors ${
-                  emailError
-                    ? "border-red-400 focus:border-red-400"
-                    : "border-stone-200 focus:border-stone-400"
-                }`}
+                className="w-full px-3.5 py-3 rounded-md border text-[16px] focus:outline-none transition-colors"
+                style={{
+                  backgroundColor: PAPER,
+                  color: INK,
+                  borderColor: emailError ? "#9A3B2F" : "rgba(42,42,34,0.25)",
+                }}
               />
               {emailError && (
-                <p className="text-red-500 text-sm mt-1">{emailError}</p>
+                <p className="text-sm mt-1" style={{ color: "#9A3B2F" }}>{emailError}</p>
               )}
               {!emailError && emailSuggestion && (
-                <p className="text-amber-600 text-sm mt-1">
+                <p className="text-sm mt-1" style={{ color: "#8A6A2F" }}>
                   Did you mean{" "}
                   <button
                     type="button"
@@ -208,7 +228,7 @@ export default function ContactScreen({
             </div>
           </div>
 
-          <p className="text-xs text-stone-500 mb-4 leading-snug">
+          <p className="text-xs mb-4 leading-snug" style={{ color: "rgba(42,42,34,0.55)", fontFamily: BODY_FONT }}>
             By submitting, you agree to be contacted by Your Local Garden Designer about your project. We don't sell your data.
           </p>
 
@@ -216,10 +236,14 @@ export default function ContactScreen({
             onClick={handleSubmit}
             disabled={isSubmitting}
             aria-disabled={!isValid}
-            className={`w-full py-4 rounded-xl font-bold text-base transition-all duration-150 active:scale-[0.98] ${
-              isValid && !isSubmitting ? "text-stone-900" : "text-stone-400 cursor-not-allowed"
-            }`}
-            style={{ backgroundColor: isValid && !isSubmitting ? "#C9A76A" : "#e5e5e0" }}
+            className="w-full py-4 rounded-md uppercase font-semibold text-base transition-all duration-150 active:scale-[0.98]"
+            style={{
+              fontFamily: DISPLAY_FONT,
+              letterSpacing: "0.06em",
+              backgroundColor: isValid && !isSubmitting ? GREEN : "rgba(42,42,34,0.15)",
+              color: isValid && !isSubmitting ? "#ffffff" : "rgba(42,42,34,0.4)",
+              cursor: isValid && !isSubmitting ? "pointer" : "not-allowed",
+            }}
           >
             {isSubmitting ? "Submitting..." : "Show Me My Results →"}
           </button>

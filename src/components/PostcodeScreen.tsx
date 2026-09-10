@@ -4,6 +4,16 @@ import { useState } from "react";
 import { MapPin } from "lucide-react";
 import QuizLayout from "./QuizLayout";
 
+/**
+ * Postcode input screen with UK postcode / Irish Eircode format validation.
+ */
+
+const INK = "#2A2A22";
+const PAPER = "#F4EFE4";
+const GREEN = "#2F5D3A";
+
+const DISPLAY_FONT = "'Century Gothic','Futura','URW Geometric','Jost',sans-serif";
+
 interface PostcodeScreenProps {
   eyebrow: string;
   question: string;
@@ -79,27 +89,30 @@ export default function PostcodeScreen({
       onBack={onBack}
     >
       <div className="px-5 py-6 md:px-10 md:py-8 max-w-lg mx-auto md:mx-0 w-full">
-        <div className="rounded-2xl bg-white shadow-sm border border-stone-100 p-5 md:p-6">
+        <div className="rounded-md border p-5 md:p-6" style={{ borderColor: INK, backgroundColor: PAPER }}>
           <p
-            className="text-xs font-bold uppercase tracking-widest mb-2"
-            style={{ color: "#C9A76A" }}
+            className="text-xs font-semibold uppercase mb-2"
+            style={{ fontFamily: DISPLAY_FONT, letterSpacing: "0.14em", color: GREEN }}
           >
             {eyebrow}
           </p>
 
-          <h2 className="text-[1.65rem] leading-[1.08] font-bold text-stone-950 mb-3 text-balance font-display">
+          <h2
+            className="uppercase leading-[1.12] mb-3 text-balance text-[1.45rem]"
+            style={{ fontFamily: DISPLAY_FONT, letterSpacing: "0.02em", color: INK }}
+          >
             {question}
           </h2>
 
           {hint && (
-            <p className="text-[16px] text-stone-600 leading-relaxed mb-5 text-pretty">
+            <p className="text-[16px] leading-relaxed mb-5 text-pretty" style={{ color: "rgba(42,42,34,0.75)" }}>
               {hint}
             </p>
           )}
 
           {/* Postcode input */}
           <div className="relative mb-2">
-            <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400">
+            <div className="absolute left-3.5 top-1/2 -translate-y-1/2" style={{ color: "rgba(42,42,34,0.4)" }}>
               <MapPin size={18} />
             </div>
             <input
@@ -112,28 +125,29 @@ export default function PostcodeScreen({
               onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
               placeholder={placeholder}
               autoComplete="postal-code"
-              className={`w-full pl-10 pr-4 py-3.5 rounded-xl border bg-white text-stone-900 text-[16px] placeholder:text-stone-400 focus:outline-none transition-colors ${
-                error
-                  ? "border-red-400 focus:border-red-400"
-                  : "border-stone-200 focus:border-stone-400"
-              }`}
+              className="w-full pl-10 pr-4 py-3.5 rounded-md border text-[16px] focus:outline-none transition-colors"
+              style={{
+                backgroundColor: PAPER,
+                color: INK,
+                borderColor: error ? "#9A3B2F" : "rgba(42,42,34,0.25)",
+              }}
             />
           </div>
 
           {error && (
-            <p className="text-red-500 text-sm mb-3">{error}</p>
+            <p className="text-sm mb-3" style={{ color: "#9A3B2F" }}>{error}</p>
           )}
 
           <button
             onClick={handleSubmit}
             disabled={value.trim().length === 0}
-            className={`w-full py-4 rounded-xl font-bold text-base transition-all duration-150 active:scale-[0.98] mt-2 ${
-              value.trim().length > 0
-                ? "text-white"
-                : "text-stone-400 cursor-not-allowed"
-            }`}
+            className="w-full py-4 rounded-md uppercase font-semibold text-base transition-all duration-150 active:scale-[0.98] mt-2"
             style={{
-              backgroundColor: value.trim().length > 0 ? "#1E3A2F" : "#e5e5e0",
+              fontFamily: DISPLAY_FONT,
+              letterSpacing: "0.06em",
+              backgroundColor: value.trim().length > 0 ? GREEN : "rgba(42,42,34,0.15)",
+              color: value.trim().length > 0 ? "#ffffff" : "rgba(42,42,34,0.4)",
+              cursor: value.trim().length > 0 ? "pointer" : "not-allowed",
             }}
           >
             Continue

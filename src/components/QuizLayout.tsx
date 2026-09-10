@@ -2,6 +2,15 @@
 
 import { ChevronLeft } from "lucide-react";
 
+/**
+ * Split-screen shell for the quiz: full-height image on the left (desktop),
+ * header bar with back button/brand mark/step counter, and the content area
+ * for the active screen.
+ */
+
+const INK = "#2A2A22";
+const PAPER = "#F4EFE4";
+
 interface QuizLayoutProps {
   children: React.ReactNode;
   imageUrl: string;
@@ -21,6 +30,10 @@ export default function QuizLayout({
 }: QuizLayoutProps) {
   return (
     <div className="min-h-screen flex flex-col md:flex-row font-body">
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap');
+      `}</style>
+
       {/* Left column: full-height image (desktop only) */}
       <div className="hidden md:block md:w-1/2 sticky top-0 h-screen overflow-hidden shrink-0">
         <img
@@ -36,13 +49,14 @@ export default function QuizLayout({
         {/* Header bar */}
         <div
           className="flex items-center justify-between px-5 py-4"
-          style={{ backgroundColor: "#1E3A2F" }}
+          style={{ backgroundColor: INK }}
         >
           <div className="flex items-center gap-3">
             {onBack && (
               <button
                 onClick={onBack}
-                className="flex items-center gap-1 text-white/80 hover:text-white transition-colors text-sm font-semibold"
+                className="flex items-center gap-1 transition-colors text-sm font-semibold"
+                style={{ color: "rgba(244,239,228,0.8)" }}
               >
                 <ChevronLeft size={18} />
                 <span>Back</span>
@@ -53,20 +67,18 @@ export default function QuizLayout({
           {/* Brand mark */}
           <div className="flex items-center gap-2">
             <img
-              src="/images/brand/ylgd-mark-round.svg"
+              src="/images/brand/ylgd-mark-primary.svg"
               alt="Your Local Garden Designer"
-              className="w-7 h-7 rounded-full"
+              className="h-9 w-auto rounded-sm"
             />
-            <span
-              className="font-semibold text-sm tracking-tight text-white font-display"
-            >
-              Your Local Garden Designer
-            </span>
           </div>
 
           {/* Step counter */}
           {showProgress && currentStep && totalSteps ? (
-            <span className="text-white/60 text-sm font-semibold tabular-nums">
+            <span
+              className="text-sm font-semibold tabular-nums"
+              style={{ color: "rgba(244,239,228,0.6)" }}
+            >
               {currentStep} / {totalSteps}
             </span>
           ) : (
@@ -85,7 +97,7 @@ export default function QuizLayout({
         </div>
 
         {/* Content area */}
-        <div className="flex-1 flex flex-col" style={{ backgroundColor: "#F5F5F0" }}>
+        <div className="flex-1 flex flex-col" style={{ backgroundColor: PAPER }}>
           {children}
         </div>
       </div>

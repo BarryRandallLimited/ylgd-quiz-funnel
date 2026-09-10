@@ -21,6 +21,15 @@ import EducationScreen from "./EducationScreen";
 import ContactScreen from "./ContactScreen";
 import ResultsScreen from "./ResultsScreen";
 
+/**
+ * Main orchestrator for the quiz: manages the state machine driving screen
+ * flow, tracks answers, and fires calculatePrice/submitLead/pixel calls.
+ */
+
+const INK = "#2A2A22";
+const GREEN = "#2F5D3A";
+const BODY_FONT = "'Inter','Montserrat',sans-serif";
+
 type Screen = "landing" | (typeof quizOrder)[number] | "loading" | "results";
 
 const INITIAL_ANSWERS: QuizAnswers = {
@@ -145,13 +154,18 @@ export default function QuizApp({ region }: QuizAppProps) {
   // Loading screen with progress bar
   if (screen === "loading") {
     return (
-      <div className="min-h-screen flex items-center justify-center font-body" style={{ backgroundColor: "#1E3A2F" }}>
+      <div className="min-h-screen flex items-center justify-center font-body" style={{ backgroundColor: INK }}>
+        <style>{`
+          @import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap');
+        `}</style>
         <div className="text-center w-full max-w-xs px-5">
-          <p className="text-white/80 text-lg mb-6">Calculating your estimate...</p>
-          <div className="w-full h-2 rounded-full bg-white/10 overflow-hidden">
+          <p className="text-lg mb-6" style={{ color: "rgba(244,239,228,0.8)", fontFamily: BODY_FONT }}>
+            Calculating your estimate...
+          </p>
+          <div className="w-full h-2 rounded-full overflow-hidden" style={{ backgroundColor: "rgba(244,239,228,0.1)" }}>
             <div
               className="h-full rounded-full"
-              style={{ backgroundColor: "#C9A76A", animation: "loadbar 2s ease-in-out forwards" }}
+              style={{ backgroundColor: GREEN, animation: "loadbar 2s ease-in-out forwards" }}
             />
           </div>
         </div>
