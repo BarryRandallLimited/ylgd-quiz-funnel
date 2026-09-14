@@ -20,7 +20,8 @@ import { pixelLead, generateEventId } from "@/lib/pixel";
  * outside this page is affected.
  */
 
-const MAGAZINE_PDF_PATH = "/downloads/dream-gardens-landscapes-september-2026.pdf";
+const MAGAZINE_DRIVE_URL =
+  "https://drive.google.com/drive/folders/1M0GU1o2-K-ZlJtMXYw-eQir4fKjtG5Qb?usp=sharing";
 const COVER_IMAGE = "/images/magazine/dream-gardens-september-2026-cover.jpg";
 
 const INK = "#2A2A22";
@@ -61,7 +62,6 @@ export default function MagazineLanding() {
   const [state, setState] = useState<FormState>("idle");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
-  const [downloadUrl, setDownloadUrl] = useState(MAGAZINE_PDF_PATH);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -78,7 +78,6 @@ export default function MagazineLanding() {
         return;
       }
       pixelLead({ value: 0, contentName: "Magazine Signup", eventId: generateEventId() });
-      setDownloadUrl(data.downloadUrl || MAGAZINE_PDF_PATH);
       setState("success");
     } catch {
       setState("error");
@@ -234,8 +233,9 @@ export default function MagazineLanding() {
                     every new issue as soon as it&rsquo;s out.
                   </p>
                   <a
-                    href={downloadUrl}
-                    download
+                    href={MAGAZINE_DRIVE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-full inline-flex items-center justify-center gap-2 py-3.5 uppercase font-semibold text-sm text-white transition-opacity hover:opacity-90"
                     style={{ backgroundColor: GREEN, fontFamily: DISPLAY_FONT, letterSpacing: "0.08em" }}
                   >

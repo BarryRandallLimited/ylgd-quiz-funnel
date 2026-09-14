@@ -3,16 +3,21 @@ import { NextRequest, NextResponse } from "next/server";
 /**
  * Server-side handler for the /magazine download gate.
  *
- * Deliberately simple compared to /api/submit-lead: this is a low-friction
- * name-and-email signup for a free monthly magazine, not a quiz lead or a
- * paid order, so there is no Airtable durability layer here. The visitor
- * gets their download link immediately client-side regardless of whether
- * this forward succeeds; this route's job is just to hand the subscriber
- * over to GHL so Barry's team can email them the issue and add them to the
- * mailing list. The actual GHL workflow behind GHL_MAGAZINE_WEBHOOK_URL is
- * built and maintained manually, not by this codebase.
+ * Writes every submission to the Airtable "Magazine Subscribers" table
+ * first, then forwards it to GHL, then updates that same Airtable record
+ * with whether the GHL forward succeeded. This mirrors the durable-first
+ * pattern in /api/submit-lead: a signup is never silently lost just because
+ * GHL_MAGAZINE_WEBHOOK_URL is unset or GHL is briefly down. The visitor
+ * still gets their download link immediately regardless of either outcome,
+ * since the front end doesn't gate the file on this route succeeding.
+ *
+ * The Airtable table itself must be created manually (the API can't create
+ * new tables), see the field list in createSubscriberRecord below.
  */
 
+const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID || "appAGZVUJmvnyDAL1";
+const AIRTABLE_API_KEY = process.env.AIRTABLE_API_KEY;
+const SUBSCRIBERS_TABLE = "Magazine Subscribers";
 const GHL_MAGAZINE_WEBHOOK_URL = process.env.GHL_MAGAZINE_WEBHOOK_URL;
 const MAGAZINE_ISSUE_LABEL = "September 2026";
 const MAGAZINE_PDF_PATH = "/downloads/dream-gardens-landscapes-september-2026.pdf";
@@ -29,11 +34,111 @@ interface MagazineSignupPayload {
   fbclid?: string;
 }
 
+interface ForwardPayload {
+  full_name: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  issue: string;
+  download_url: string;
+  lead_source: string;
+  tags: string[];
+  utm_source: string;
+  utm_medium: string;
+  utm_campaign: string;
+  utm_content: string;
+  fbclid: string;
+  submitted_at: string;
+}
+
 function splitName(fullName: string): { first_name: string; last_name: string } {
   const trimmed = fullName.trim().replace(/\s+/g, " ");
   const parts = trimmed.split(" ");
   if (parts.length === 1) return { first_name: parts[0] ?? "", last_name: "" };
   return { first_name: parts[0], last_name: parts.slice(1).join(" ") };
+}
+
+function airtableHeaders() {
+  return {
+    Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+    "Content-Type": "application/json",
+  };
+}
+
+/**
+ * Requires a "Magazine Subscribers" table in the same Airtable base, with
+ * these fields (create manually, the API can't create tables): Email
+ * (Single line text), First Name, Last Name, Issue, Download URL, Lead
+ * Source, UTM Source, UTM Medium, UTM Campaign, UTM Content, Fbclid,
+ * Submitted At (Single line text is fine, or Date), GHL Sync Status
+ * (Single line text), GHL Sync Error (Single line text, optional).
+ */
+async function createSubscriberRecord(payload: ForwardPayload): Promise<string | undefined> {
+  const fields: Record<string, unknown> = {
+    Email: payload.email,
+    "First Name": payload.first_name,
+    "Last Name": payload.last_name,
+    Issue: payload.issue,
+    "Download URL": payload.download_url,
+    "Lead Source": payload.lead_source,
+    "UTM Source": payload.utm_source,
+    "UTM Medium": payload.utm_medium,
+    "UTM Campaign": payload.utm_campaign,
+    "UTM Content": payload.utm_content,
+    Fbclid: payload.fbclid,
+    "GHL Sync Status": "Pending",
+    "Submitted At": payload.submitted_at,
+  };
+
+  const res = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(SUBSCRIBERS_TABLE)}`, {
+    method: "POST",
+    headers: airtableHeaders(),
+    body: JSON.stringify({ records: [{ fields }] }),
+  });
+
+  if (!res.ok) {
+    console.error(`[magazine-signup] Airtable create failed (${res.status})`, await res.text());
+    return undefined;
+  }
+
+  const data = await res.json();
+  return data.records?.[0]?.id;
+}
+
+async function updateSubscriberSyncStatus(recordId: string, status: "Sent" | "Failed", error?: string) {
+  try {
+    await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(SUBSCRIBERS_TABLE)}/${recordId}`, {
+      method: "PATCH",
+      headers: airtableHeaders(),
+      body: JSON.stringify({
+        fields: {
+          "GHL Sync Status": status,
+          ...(error ? { "GHL Sync Error": error } : {}),
+        },
+      }),
+    });
+  } catch (err) {
+    console.error("[magazine-signup] Failed to update subscriber sync status:", err);
+  }
+}
+
+async function forwardToGHL(payload: ForwardPayload): Promise<{ ok: boolean; error?: string }> {
+  if (!GHL_MAGAZINE_WEBHOOK_URL) {
+    return { ok: false, error: "GHL_MAGAZINE_WEBHOOK_URL not configured" };
+  }
+  try {
+    const res = await fetch(GHL_MAGAZINE_WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      return { ok: false, error: `GHL webhook returned ${res.status}` };
+    }
+    return { ok: true };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : "Unknown error" };
+  }
 }
 
 export async function POST(req: NextRequest) {
@@ -55,10 +160,9 @@ export async function POST(req: NextRequest) {
   }
 
   const { first_name, last_name } = splitName(fullName);
-
   const downloadUrl = `${req.nextUrl.origin}${MAGAZINE_PDF_PATH}`;
 
-  const forwardPayload = {
+  const forwardPayload: ForwardPayload = {
     full_name: fullName,
     first_name,
     last_name,
@@ -75,27 +179,28 @@ export async function POST(req: NextRequest) {
     submitted_at: new Date().toISOString(),
   };
 
-  if (!GHL_MAGAZINE_WEBHOOK_URL) {
-    console.error("[magazine-signup] GHL_MAGAZINE_WEBHOOK_URL not configured, subscriber not forwarded.");
-    // Still let the visitor through to the download; the front end doesn't
-    // block the file on this webhook succeeding. Barry needs to set the env
-    // var before subscribers actually start reaching his mailing list.
-    return NextResponse.json({ ok: true, ghl: false, downloadUrl });
+  if (!AIRTABLE_API_KEY) {
+    console.error("[magazine-signup] AIRTABLE_API_KEY not set, cannot record subscriber durably.");
+    // Still try GHL directly so the subscriber isn't lost outright if
+    // Airtable isn't configured yet.
+    const ghlResult = await forwardToGHL(forwardPayload);
+    return NextResponse.json({ ok: ghlResult.ok, airtable: false, ghl: ghlResult.ok, downloadUrl });
   }
 
-  try {
-    const res = await fetch(GHL_MAGAZINE_WEBHOOK_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(forwardPayload),
-    });
-    if (!res.ok) {
-      console.error(`[magazine-signup] GHL webhook returned ${res.status}`);
-      return NextResponse.json({ ok: true, ghl: false, downloadUrl });
-    }
-    return NextResponse.json({ ok: true, ghl: true, downloadUrl });
-  } catch (err) {
-    console.error("[magazine-signup] GHL webhook error:", err);
-    return NextResponse.json({ ok: true, ghl: false, downloadUrl });
+  const recordId = await createSubscriberRecord(forwardPayload);
+
+  const ghlResult = await forwardToGHL(forwardPayload);
+
+  if (recordId) {
+    await updateSubscriberSyncStatus(recordId, ghlResult.ok ? "Sent" : "Failed", ghlResult.error);
   }
+
+  // Durably recorded in Airtable regardless of the GHL outcome, so the
+  // visitor-facing result is a success as long as Airtable succeeded.
+  return NextResponse.json({
+    ok: Boolean(recordId) || ghlResult.ok,
+    airtable: Boolean(recordId),
+    ghl: ghlResult.ok,
+    downloadUrl,
+  });
 }
