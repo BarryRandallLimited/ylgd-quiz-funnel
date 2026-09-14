@@ -210,6 +210,6 @@ export async function POST(req: NextRequest) {
     ghl: ghlResult.ok,
     downloadUrl,
     // TEMP DEBUG: remove once the flow is confirmed working end-to-end.
-    debug: airtableError || ghlResult.error || undefined,
+    debug: { airtableError, ghlError: ghlResult.error },
   });
 }
