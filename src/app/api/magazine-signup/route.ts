@@ -73,7 +73,7 @@ function airtableHeaders() {
  * Submitted At (Single line text is fine, or Date), GHL Sync Status
  * (Single line text), GHL Sync Error (Single line text, optional).
  */
-async function createSubscriberRecord(payload: ForwardPayload): Promise<string | undefined> {
+async function createSubscriberRecord(payload: ForwardPayload): Promise<{ recordId?: string; error?: string }> {
   const fields: Record<string, unknown> = {
     Email: payload.email,
     "First Name": payload.first_name,
@@ -97,12 +97,13 @@ async function createSubscriberRecord(payload: ForwardPayload): Promise<string |
   });
 
   if (!res.ok) {
-    console.error(`[magazine-signup] Airtable create failed (${res.status})`, await res.text());
-    return undefined;
+    const errText = await res.text();
+    console.error(`[magazine-signup] Airtable create failed (${res.status})`, errText);
+    return { error: `Airtable ${res.status}: ${errText.slice(0, 300)}` };
   }
 
   const data = await res.json();
-  return data.records?.[0]?.id;
+  return { recordId: data.records?.[0]?.id };
 }
 
 async function updateSubscriberSyncStatus(recordId: string, status: "Sent" | "Failed", error?: string) {
@@ -184,10 +185,16 @@ export async function POST(req: NextRequest) {
     // Still try GHL directly so the subscriber isn't lost outright if
     // Airtable isn't configured yet.
     const ghlResult = await forwardToGHL(forwardPayload);
-    return NextResponse.json({ ok: ghlResult.ok, airtable: false, ghl: ghlResult.ok, downloadUrl });
+    return NextResponse.json({
+      ok: ghlResult.ok,
+      airtable: false,
+      ghl: ghlResult.ok,
+      downloadUrl,
+      debug: "AIRTABLE_API_KEY not set in Vercel env",
+    });
   }
 
-  const recordId = await createSubscriberRecord(forwardPayload);
+  const { recordId, error: airtableError } = await createSubscriberRecord(forwardPayload);
 
   const ghlResult = await forwardToGHL(forwardPayload);
 
@@ -202,5 +209,7 @@ export async function POST(req: NextRequest) {
     airtable: Boolean(recordId),
     ghl: ghlResult.ok,
     downloadUrl,
+    // TEMP DEBUG: remove once the flow is confirmed working end-to-end.
+    debug: airtableError || ghlResult.error || undefined,
   });
 }
