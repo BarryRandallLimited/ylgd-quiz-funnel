@@ -15,6 +15,8 @@ const GREEN = "#2F5D3A";
 
 const DISPLAY_FONT = "'Century Gothic','Futura','URW Geometric','Jost',sans-serif";
 
+const BOOKING_URL = "https://go.yourlocalgardendesigner.com/widget/booking/FBvXsm2kuizMFl7LCTKj";
+
 interface ResultsScreenProps {
   result: PriceResult;
   countyList: string;
@@ -255,6 +257,32 @@ export default function ResultsScreen({ result, countyList }: ResultsScreenProps
               </div>
             </div>
           ))}
+        </div>
+
+        {/* 5. Book a call */}
+        <p
+          className="text-xs font-semibold uppercase text-center mb-3"
+          style={{ fontFamily: DISPLAY_FONT, letterSpacing: "0.14em", color: GREEN }}
+        >
+          Prefer to talk it through?
+        </p>
+        <h3
+          className="uppercase leading-tight text-center mb-3 text-balance text-[1.3rem]"
+          style={{ fontFamily: DISPLAY_FONT, letterSpacing: "0.02em", color: INK }}
+        >
+          Book A Free Call With Our Team
+        </h3>
+        <p className="text-[16px] text-center leading-relaxed mb-5 text-pretty" style={{ color: "rgba(42,42,34,0.85)" }}>
+          Talk through your ideas, get a realistic sense of cost, and find out if we're the right fit. No pressure, no obligation.
+        </p>
+        <div className="rounded-md overflow-hidden border" style={{ borderColor: "rgba(42,42,34,0.15)" }}>
+          <iframe
+            src={BOOKING_URL}
+            title="Book a free call with our team"
+            className="w-full border-0 block"
+            style={{ height: "780px" }}
+            loading="lazy"
+          />
         </div>
       </div>
     </div>
