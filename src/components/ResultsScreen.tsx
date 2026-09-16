@@ -5,8 +5,8 @@ import { founderProfile } from "@/config/regions";
 import type { PriceResult } from "@/lib/types";
 
 /**
- * Results screen: pricing summary, letter-style message from Barry, and
- * verified testimonials (video and text).
+ * Results screen: pricing summary, letter-style message from Barry, a
+ * booking calendar, and verified testimonials (video and text).
  */
 
 const INK = "#2A2A22";
@@ -86,25 +86,25 @@ export default function ResultsScreen({ result, countyList }: ResultsScreenProps
         />
       </div>
 
-      <div className="max-w-xl mx-auto px-5 pt-6 pb-10">
+      <div className="max-w-xl mx-auto px-5 pt-8 pb-16">
         {/* 1. Thank you and letter */}
-        <div className="flex justify-center mb-4">
+        <div className="flex justify-center mb-5">
           <CheckCircle2 size={44} style={{ color: INK }} strokeWidth={1.5} />
         </div>
 
         <h2
-          className="uppercase leading-[1.1] text-center mb-2 text-balance text-[1.55rem]"
+          className="uppercase leading-[1.1] text-center mb-3 text-balance text-[1.55rem]"
           style={{ fontFamily: DISPLAY_FONT, letterSpacing: "0.01em", color: INK }}
         >
           Thank You For Your Enquiry, We've Received All Your Answers
         </h2>
 
-        <p className="text-[17px] text-center leading-relaxed mb-6 text-pretty font-semibold" style={{ color: "rgba(42,42,34,0.85)" }}>
+        <p className="text-[17px] text-center leading-relaxed mb-8 text-pretty font-semibold" style={{ color: "rgba(42,42,34,0.85)" }}>
           Here's what happens next.
         </p>
 
         {/* Letter-style message */}
-        <div className="rounded-md border px-5 py-6 mb-8" style={{ borderColor: "rgba(42,42,34,0.15)", backgroundColor: PAPER }}>
+        <div className="rounded-md border px-5 py-6 mb-14 md:mb-16" style={{ borderColor: "rgba(42,42,34,0.15)", backgroundColor: PAPER }}>
           <div className="text-[16px] leading-relaxed text-pretty space-y-4" style={{ color: "rgba(42,42,34,0.85)" }}>
             <p>
               Every project is reviewed personally by our team, not a call centre, not an algorithm.
@@ -169,11 +169,11 @@ export default function ResultsScreen({ result, countyList }: ResultsScreenProps
           A Realistic Guide To Your Garden's Cost
         </h3>
 
-        <p className="text-[16px] text-center leading-relaxed mb-5 text-pretty" style={{ color: "rgba(42,42,34,0.85)" }}>
+        <p className="text-[16px] text-center leading-relaxed mb-6 text-pretty" style={{ color: "rgba(42,42,34,0.85)" }}>
           Based on what you've told us about your {result.gardenSizeM2} garden.
         </p>
 
-        <div className="rounded-md p-5 mb-5" style={{ backgroundColor: INK }}>
+        <div className="rounded-md p-5 mb-6" style={{ backgroundColor: INK }}>
           <p
             className="text-xs font-semibold uppercase text-center mb-2"
             style={{ fontFamily: DISPLAY_FONT, letterSpacing: "0.18em", color: "rgba(244,239,228,0.8)" }}
@@ -196,28 +196,54 @@ export default function ResultsScreen({ result, countyList }: ResultsScreenProps
         </div>
 
         {/* Control framing */}
-        <div className="rounded-md border px-5 py-4 mb-8" style={{ borderColor: "rgba(42,42,34,0.15)", backgroundColor: "rgba(42,42,34,0.04)" }}>
+        <div className="rounded-md border px-5 py-4 mb-14 md:mb-16" style={{ borderColor: "rgba(42,42,34,0.15)", backgroundColor: "rgba(42,42,34,0.04)" }}>
           <p className="text-[16px] leading-relaxed text-pretty" style={{ color: "rgba(42,42,34,0.85)" }}>
             Two identical gardens can cost very differently. A simpler finish keeps it lean. Premium materials and more detail add to it. You decide where on that scale you sit, and the design stage is where you make those calls.
           </p>
         </div>
 
-        {/* 3. Video testimonials */}
-        <div className="mb-8">
+        {/* 3. Book a call */}
+        <p
+          className="text-xs font-semibold uppercase text-center mb-3"
+          style={{ fontFamily: DISPLAY_FONT, letterSpacing: "0.14em", color: GREEN }}
+        >
+          Prefer to talk it through?
+        </p>
+        <h3
+          className="uppercase leading-tight text-center mb-3 text-balance text-[1.3rem]"
+          style={{ fontFamily: DISPLAY_FONT, letterSpacing: "0.02em", color: INK }}
+        >
+          Book A Free Call With Our Team
+        </h3>
+        <p className="text-[16px] text-center leading-relaxed mb-6 text-pretty" style={{ color: "rgba(42,42,34,0.85)" }}>
+          Talk through your ideas, get a realistic sense of cost, and find out if we're the right fit. No pressure, no obligation.
+        </p>
+        <div className="rounded-md overflow-hidden border mb-14 md:mb-16" style={{ borderColor: "rgba(42,42,34,0.15)" }}>
+          <iframe
+            src={BOOKING_URL}
+            title="Book a free call with our team"
+            className="w-full border-0 block"
+            style={{ height: "780px" }}
+            loading="lazy"
+          />
+        </div>
+
+        {/* 4. Video testimonials */}
+        <div className="mb-14 md:mb-16">
           <p
-            className="text-xs font-semibold uppercase text-center mb-5"
+            className="text-xs font-semibold uppercase text-center mb-8"
             style={{ fontFamily: DISPLAY_FONT, letterSpacing: "0.14em", color: GREEN }}
           >
             What our clients say
           </p>
-          <div className="space-y-8">
+          <div className="space-y-10 md:space-y-12">
             {testimonialVideos.map((video) => (
               <div key={video.videoId}>
-                <p className="text-[17px] font-semibold leading-snug mb-1 text-center text-pretty" style={{ color: INK }}>
+                <p className="text-[17px] font-semibold leading-snug mb-2 text-center text-pretty" style={{ color: INK }}>
                   {video.subhead}
                 </p>
                 <p
-                  className="text-[12px] font-semibold uppercase mb-3 text-center"
+                  className="text-[12px] font-semibold uppercase mb-4 text-center"
                   style={{ fontFamily: DISPLAY_FONT, letterSpacing: "0.1em", color: "rgba(42,42,34,0.45)" }}
                 >
                   {video.name}
@@ -228,14 +254,14 @@ export default function ResultsScreen({ result, countyList }: ResultsScreenProps
           </div>
         </div>
 
-        {/* 4. Text testimonials */}
+        {/* 5. Text testimonials */}
         <p
-          className="text-xs font-semibold uppercase text-center mb-5"
+          className="text-xs font-semibold uppercase text-center mb-6"
           style={{ fontFamily: DISPLAY_FONT, letterSpacing: "0.14em", color: GREEN }}
         >
           Verified Google Reviews
         </p>
-        <div className="space-y-4 mb-6">
+        <div className="space-y-5">
           {profile.testimonials.map((t) => (
             <div key={t.name} className="rounded-md border px-4 py-4" style={{ borderColor: "rgba(42,42,34,0.15)", backgroundColor: PAPER }}>
               <p className="text-[15px] leading-relaxed mb-3 text-pretty" style={{ color: "rgba(42,42,34,0.85)" }}>
@@ -257,32 +283,6 @@ export default function ResultsScreen({ result, countyList }: ResultsScreenProps
               </div>
             </div>
           ))}
-        </div>
-
-        {/* 5. Book a call */}
-        <p
-          className="text-xs font-semibold uppercase text-center mb-3"
-          style={{ fontFamily: DISPLAY_FONT, letterSpacing: "0.14em", color: GREEN }}
-        >
-          Prefer to talk it through?
-        </p>
-        <h3
-          className="uppercase leading-tight text-center mb-3 text-balance text-[1.3rem]"
-          style={{ fontFamily: DISPLAY_FONT, letterSpacing: "0.02em", color: INK }}
-        >
-          Book A Free Call With Our Team
-        </h3>
-        <p className="text-[16px] text-center leading-relaxed mb-5 text-pretty" style={{ color: "rgba(42,42,34,0.85)" }}>
-          Talk through your ideas, get a realistic sense of cost, and find out if we're the right fit. No pressure, no obligation.
-        </p>
-        <div className="rounded-md overflow-hidden border" style={{ borderColor: "rgba(42,42,34,0.15)" }}>
-          <iframe
-            src={BOOKING_URL}
-            title="Book a free call with our team"
-            className="w-full border-0 block"
-            style={{ height: "780px" }}
-            loading="lazy"
-          />
         </div>
       </div>
     </div>
