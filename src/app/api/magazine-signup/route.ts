@@ -27,6 +27,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 interface MagazineSignupPayload {
   full_name: string;
   email: string;
+  phone: string;
   utm_source?: string;
   utm_medium?: string;
   utm_campaign?: string;
@@ -39,6 +40,7 @@ interface ForwardPayload {
   first_name: string;
   last_name: string;
   email: string;
+  phone: string;
   issue: string;
   download_url: string;
   lead_source: string;
@@ -68,7 +70,7 @@ function airtableHeaders() {
 /**
  * Requires a "Magazine Subscribers" table in the same Airtable base, with
  * these fields (create manually, the API can't create tables): Email
- * (Single line text), First Name, Last Name, Issue, Download URL, Lead
+ * (Single line text), First Name, Last Name, Phone, Issue, Download URL, Lead
  * Source, UTM Source, UTM Medium, UTM Campaign, UTM Content, Fbclid,
  * Submitted At (Single line text is fine, or Date), GHL Sync Status
  * (Single line text), GHL Sync Error (Single line text, optional).
@@ -78,6 +80,7 @@ async function createSubscriberRecord(payload: ForwardPayload): Promise<{ record
     Email: payload.email,
     "First Name": payload.first_name,
     "Last Name": payload.last_name,
+    Phone: payload.phone,
     Issue: payload.issue,
     "Download URL": payload.download_url,
     "Lead Source": payload.lead_source,
@@ -152,12 +155,16 @@ export async function POST(req: NextRequest) {
 
   const fullName = (body.full_name || "").trim();
   const email = (body.email || "").trim();
+  const phone = (body.phone || "").trim();
 
   if (!fullName) {
     return NextResponse.json({ ok: false, error: "Name is required" }, { status: 400 });
   }
   if (!EMAIL_RE.test(email)) {
     return NextResponse.json({ ok: false, error: "A valid email is required" }, { status: 400 });
+  }
+  if (!phone) {
+    return NextResponse.json({ ok: false, error: "Phone number is required" }, { status: 400 });
   }
 
   const { first_name, last_name } = splitName(fullName);
@@ -168,6 +175,7 @@ export async function POST(req: NextRequest) {
     first_name,
     last_name,
     email,
+    phone,
     issue: MAGAZINE_ISSUE_LABEL,
     download_url: downloadUrl,
     lead_source: "Magazine Landing Page",
@@ -190,13 +198,18 @@ export async function POST(req: NextRequest) {
       airtable: false,
       ghl: ghlResult.ok,
       downloadUrl,
-      debug: "AIRTABLE_API_KEY not set in Vercel env",
     });
   }
 
   const { recordId, error: airtableError } = await createSubscriberRecord(forwardPayload);
+  if (airtableError) {
+    console.error("[magazine-signup] Airtable error:", airtableError);
+  }
 
   const ghlResult = await forwardToGHL(forwardPayload);
+  if (ghlResult.error) {
+    console.error("[magazine-signup] GHL error:", ghlResult.error);
+  }
 
   if (recordId) {
     await updateSubscriberSyncStatus(recordId, ghlResult.ok ? "Sent" : "Failed", ghlResult.error);
@@ -209,7 +222,5 @@ export async function POST(req: NextRequest) {
     airtable: Boolean(recordId),
     ghl: ghlResult.ok,
     downloadUrl,
-    // TEMP DEBUG: remove once the flow is confirmed working end-to-end.
-    debug: { airtableError, ghlError: ghlResult.error },
   });
 }

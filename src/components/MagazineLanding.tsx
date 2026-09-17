@@ -6,10 +6,11 @@ import { pixelLead, generateEventId } from "@/lib/pixel";
 
 /**
  * Landing page for /magazine: a free-download gate for Barry's monthly
- * "Dream Gardens & Landscapes" magazine. Visitor gives their name and email,
- * we forward it to GHL (src/app/api/magazine-signup/route.ts) so Barry's
- * team can add them to the mailing list, and hand them a direct download
- * link to the current issue regardless of whether that forward succeeds.
+ * "Dream Gardens & Landscapes" magazine. Visitor gives their name, email,
+ * and phone number, we forward it to GHL (src/app/api/magazine-signup/
+ * route.ts) so Barry's team can add them to the mailing list and follow up
+ * by phone, and hand them a direct download link to the current issue
+ * regardless of whether that forward succeeds.
  *
  * Styled with the ink (#2A2A22) / paper (#F4EFE4) / green (#2F5D3A) brand
  * system: monochrome ink on paper, a typographic wordmark in a double-rule
@@ -62,6 +63,7 @@ export default function MagazineLanding() {
   const [state, setState] = useState<FormState>("idle");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -70,7 +72,7 @@ export default function MagazineLanding() {
       const res = await fetch("/api/magazine-signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ full_name: fullName, email, ...getUtmParams() }),
+        body: JSON.stringify({ full_name: fullName, email, phone, ...getUtmParams() }),
       });
       const data = await res.json();
       if (!res.ok || !data.ok) {
@@ -188,7 +190,7 @@ export default function MagazineLanding() {
                     />
                   </label>
 
-                  <label className="block mb-5">
+                  <label className="block mb-4">
                     <span className="block text-xs font-semibold uppercase mb-1.5" style={{ letterSpacing: "0.06em" }}>
                       Email address
                     </span>
@@ -198,6 +200,21 @@ export default function MagazineLanding() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="you@email.com"
+                      className="w-full border px-3.5 py-2.5 text-[15px] focus:outline-none"
+                      style={{ borderColor: "rgba(42,42,34,0.3)", color: INK, backgroundColor: PAPER }}
+                    />
+                  </label>
+
+                  <label className="block mb-5">
+                    <span className="block text-xs font-semibold uppercase mb-1.5" style={{ letterSpacing: "0.06em" }}>
+                      Phone number
+                    </span>
+                    <input
+                      type="tel"
+                      required
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      placeholder="07123 456789"
                       className="w-full border px-3.5 py-2.5 text-[15px] focus:outline-none"
                       style={{ borderColor: "rgba(42,42,34,0.3)", color: INK, backgroundColor: PAPER }}
                     />
