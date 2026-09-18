@@ -42,7 +42,7 @@ const galleryImages = [
   { src: "/images/home/gallery-6.jpg", alt: "Finished garden project with lawn, planting and a defined patio area" },
 ];
 
-const trustBullets = ["Vetted local specialists", "One point of contact", "Design and build, fully managed"];
+const trustBullets = ["28 day design service", "One point of contact", "Designed, built, and project managed"];
 
 const steps = [
   {
@@ -52,13 +52,13 @@ const steps = [
   },
   {
     number: "02",
-    title: "We match you with a specialist",
-    body: "We connect you with a trusted, vetted local designer and team, the right fit for your project.",
+    title: "Get your design right",
+    body: "We work closely with you to get the design, pricing, and scope of work correct.",
   },
   {
     number: "03",
-    title: "Designed and built, beautifully",
-    body: "From first sketch to finished garden, fully managed, to one national standard, wherever you are.",
+    title: "Source your landscaping team",
+    body: "We connect you with a trusted landscaping team, who is the right fit for your design.",
   },
 ];
 
@@ -162,7 +162,7 @@ export default function HomeLanding() {
               >
                 <span style={{ color: "#9CAE84" }} className="text-xs">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
                 <span className="text-[11px] font-semibold leading-tight" style={{ color: "rgba(244,239,228,0.9)" }}>
-                  Nationwide network of approved garden specialists
+                  Garden design and landscaping specialists under one brand
                 </span>
               </div>
 
@@ -170,7 +170,7 @@ export default function HomeLanding() {
                 className="uppercase font-medium leading-[1.15] md:leading-[1.05] text-balance mb-4 text-[1.9rem] md:text-[2.6rem]"
                 style={{ fontFamily: DISPLAY_FONT, letterSpacing: "0.01em", color: PAPER }}
               >
-                The World&rsquo;s Most Trusted Local Garden Design Network
+                The Most Trusted Local Garden Design Service For Homeowners
               </h1>
 
               <p
@@ -187,7 +187,7 @@ export default function HomeLanding() {
                 className="inline-block w-full text-center py-4 rounded-md uppercase font-semibold text-sm text-white transition-opacity hover:opacity-90"
                 style={{ backgroundColor: GREEN, fontFamily: DISPLAY_FONT, letterSpacing: "0.06em" }}
               >
-                Get My Free Design Consultation &rarr;
+                Speak To A Design Consultant &rarr;
               </button>
               <p className="text-[13px] text-center mt-3" style={{ color: "rgba(244,239,228,0.6)" }}>
                 No obligation &middot; reply within minutes
@@ -353,7 +353,7 @@ export default function HomeLanding() {
           className="inline-block px-8 py-4 rounded-md uppercase font-semibold text-sm text-white transition-opacity hover:opacity-90"
           style={{ backgroundColor: GREEN, fontFamily: DISPLAY_FONT, letterSpacing: "0.06em" }}
         >
-          Get My Free Design Consultation &rarr;
+          Speak To A Design Consultant &rarr;
         </button>
       </section>
 
