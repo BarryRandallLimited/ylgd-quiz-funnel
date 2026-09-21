@@ -16,6 +16,7 @@ const GREEN = "#2F5D3A";
 const DISPLAY_FONT = "'Century Gothic','Futura','URW Geometric','Jost',sans-serif";
 
 const BOOKING_URL = "https://go.yourlocalgardendesigner.com/widget/booking/FBvXsm2kuizMFl7LCTKj";
+const CASE_STUDY_VIDEO_URL = "https://share.descript.com/embed/xg7DZV8uJNE";
 
 interface ResultsScreenProps {
   result: PriceResult;
@@ -202,7 +203,33 @@ export default function ResultsScreen({ result, countyList }: ResultsScreenProps
           </p>
         </div>
 
-        {/* 3. Book a call */}
+        {/* 3. Recent project case study */}
+        <h2
+          className="uppercase leading-tight text-center mb-2 text-balance text-[1.4rem]"
+          style={{ fontFamily: DISPLAY_FONT, letterSpacing: "0.02em", color: INK }}
+        >
+          Recent Project Case Study
+        </h2>
+        <h3
+          className="text-[15px] font-semibold text-center mb-6 text-pretty"
+          style={{ color: "rgba(42,42,34,0.7)" }}
+        >
+          Watch The Full Client Interview
+        </h3>
+        <div className="rounded-md overflow-hidden border mb-14 md:mb-16" style={{ borderColor: "rgba(42,42,34,0.15)" }}>
+          <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
+            <iframe
+              src={CASE_STUDY_VIDEO_URL}
+              title="Recent project case study: full client interview"
+              frameBorder="0"
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+              allowFullScreen
+              className="absolute inset-0 w-full h-full"
+            />
+          </div>
+        </div>
+
+        {/* 4. Book a call */}
         <p
           className="text-xs font-semibold uppercase text-center mb-3"
           style={{ fontFamily: DISPLAY_FONT, letterSpacing: "0.14em", color: GREEN }}
@@ -228,7 +255,7 @@ export default function ResultsScreen({ result, countyList }: ResultsScreenProps
           />
         </div>
 
-        {/* 4. Video testimonials */}
+        {/* 5. Video testimonials */}
         <div className="mb-14 md:mb-16">
           <p
             className="text-xs font-semibold uppercase text-center mb-8"
@@ -254,7 +281,7 @@ export default function ResultsScreen({ result, countyList }: ResultsScreenProps
           </div>
         </div>
 
-        {/* 5. Text testimonials */}
+        {/* 6. Text testimonials */}
         <p
           className="text-xs font-semibold uppercase text-center mb-6"
           style={{ fontFamily: DISPLAY_FONT, letterSpacing: "0.14em", color: GREEN }}
