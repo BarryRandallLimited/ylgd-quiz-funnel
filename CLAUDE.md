@@ -140,7 +140,7 @@ Do not change the pricing formula without explicit instruction from the project 
 
 `src/components/HomeLanding.tsx`, served via the middleware rewrite described above. This is a temporary marketing/ads landing page built to replace a previous developer-built site the team lost edit access to, styled with this project's own brand system rather than the quiz's exact layout. It is not the quiz: its call to action opens a booking calendar in a modal rather than launching the question flow.
 
-Structure top to bottom: header, hero (badge, headline, subhead, CTA button, trust bullets), stats bar, "How It Works" (3 steps), recent work gallery, testimonials (from founderProfile), closing CTA, footer.
+Structure top to bottom: header, hero (badge, headline, subhead, CTA button, trust bullets), stats bar, "How It Works" (3 steps), recent work gallery, testimonials (from founderProfile), magazine download (soft secondary offer, links to /magazine, added 2026-09-22), closing CTA, footer.
 
 The CTA button (appears in the hero and again at the bottom) opens `BookingModal`, a fixed-position dialog (bottom sheet on mobile, centred card on desktop) containing an iframe pointed at the GHL calendar widget: `https://go.yourlocalgardendesigner.com/widget/booking/FBvXsm2kuizMFl7LCTKj`. This is the same URL used for the booking calendar embedded on the quiz results page.
 

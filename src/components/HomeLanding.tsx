@@ -332,6 +332,41 @@ export default function HomeLanding() {
         </div>
       </section>
 
+      {/* Magazine download */}
+      <section className="px-5 py-12 md:py-16" style={{ borderTop: "1px solid rgba(42,42,34,0.15)" }}>
+        <div
+          className="max-w-3xl mx-auto text-center rounded-md px-6 py-10 md:py-12"
+          style={{ backgroundColor: "rgba(47,93,58,0.06)", border: "1px solid rgba(47,93,58,0.25)" }}
+        >
+          <p
+            className="text-xs font-semibold uppercase mb-3"
+            style={{ fontFamily: DISPLAY_FONT, letterSpacing: "0.18em", color: GREEN }}
+          >
+            Free resource
+          </p>
+          <h2
+            className="uppercase font-medium mb-4 text-balance text-[1.5rem] md:text-[1.9rem]"
+            style={{ fontFamily: DISPLAY_FONT, letterSpacing: "0.01em", color: INK }}
+          >
+            Download Our Free Garden Design Magazine
+          </h2>
+          <p
+            className="text-[16px] leading-relaxed text-pretty mb-8 max-w-xl mx-auto"
+            style={{ color: "rgba(42,42,34,0.75)" }}
+          >
+            Not ready to book a consultation yet? Get seasonal planting advice and design ideas from our network,
+            free every month.
+          </p>
+          <a
+            href="/magazine"
+            className="inline-block px-8 py-4 rounded-md uppercase font-semibold text-sm text-white transition-opacity hover:opacity-90"
+            style={{ backgroundColor: GREEN, fontFamily: DISPLAY_FONT, letterSpacing: "0.06em" }}
+          >
+            Get My Free Copy &rarr;
+          </a>
+        </div>
+      </section>
+
       {/* Closing CTA */}
       <section className="px-5 py-14 md:py-20 text-center" style={{ backgroundColor: INK }}>
         <h2
