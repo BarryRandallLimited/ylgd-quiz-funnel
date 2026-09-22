@@ -20,7 +20,13 @@ const AIRTABLE_API_KEY = process.env.AIRTABLE_API_KEY;
 const SUBSCRIBERS_TABLE = "Magazine Subscribers";
 const GHL_MAGAZINE_WEBHOOK_URL = process.env.GHL_MAGAZINE_WEBHOOK_URL;
 const MAGAZINE_ISSUE_LABEL = "September 2026";
-const MAGAZINE_PDF_PATH = "/downloads/dream-gardens-landscapes-september-2026.pdf";
+// Canonical download link: must match MAGAZINE_DRIVE_URL in
+// src/components/MagazineLanding.tsx, which is the actual link the visitor
+// clicks. Keeping this in sync here means the "Download URL" recorded in
+// Airtable and sent to GHL always matches what the subscriber received,
+// rather than a separate local PDF path that isn't linked from the page.
+const MAGAZINE_DRIVE_URL =
+  "https://drive.google.com/drive/folders/1M0GU1o2-K-ZlJtMXYw-eQir4fKjtG5Qb?usp=sharing";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -168,7 +174,7 @@ export async function POST(req: NextRequest) {
   }
 
   const { first_name, last_name } = splitName(fullName);
-  const downloadUrl = `${req.nextUrl.origin}${MAGAZINE_PDF_PATH}`;
+  const downloadUrl = MAGAZINE_DRIVE_URL;
 
   const forwardPayload: ForwardPayload = {
     full_name: fullName,
