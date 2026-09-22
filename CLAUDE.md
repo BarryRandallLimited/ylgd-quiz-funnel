@@ -16,7 +16,7 @@ This is a client project. The client is Barry Randall, founder of YLGD. The site
 - Tailwind CSS (styling)
 - Vercel (hosting, auto-deploys from GitHub)
 - GitHub (code repository: BarryRandallLimited/ylgd-quiz-funnel)
-- Airtable (future region data, not yet wired up)
+- Airtable (Team plan, workspace "Websites", base "YLGD" — id appAGZVUJmvnyDAL1. This workspace also contains a separate "BRL" base for other Barry Randall Limited projects; this project uses the YLGD base exclusively, never BRL. Five tables live here: Regions, Landscapers, Leads, Magazine Subscribers, Orders.)
 - HighLevel / GHL (CRM, lead capture via webhook)
 - Meta Pixel (tracking)
 
@@ -145,9 +145,10 @@ The results page is structured as a personal letter from Barry, signed off with 
 
 - Homepage: live, national (no specific region)
 - Regional pages: /midlands and /cambridgeshire (using fallback config data)
-- GHL webhook: coded but URL not yet configured in Vercel
-- Airtable: not yet wired up, using fallback region data in regions.ts
+- GHL webhooks: live and configured, but deliberately split into three separate env vars so one lead source failing can never look like another one is broken: NEXT_PUBLIC_GHL_WEBHOOK_URL (quiz leads), GHL_ORDERS_WEBHOOK_URL (Stripe order confirmations), GHL_MAGAZINE_WEBHOOK_URL (magazine signups)
+- Airtable: fully wired up. Regions and Landscapers tables back the live region data (regions.generated.ts is synced from the Regions table by scripts/sync-regions.js on every build). Leads, Magazine Subscribers, and Orders tables are durable-first stores for their respective API routes (Airtable write happens before the GHL forward, so a lead is never lost outright even if GHL is briefly down). The workspace was on Airtable's free tier through 2026-09, which caps at 1,000 API requests/month per base and silently blocked every write once exceeded (looked identical to a broken webhook from the outside); upgraded to a paid Team plan 2026-09-22, so this should not recur, but if a delivery failure ever looks unexplained again, check Airtable's usage page first
 - Mobile layout: CTA button moved above the fold in LandingScreen.tsx (2026-07-04). Hero text/badge spacing compacted, hero image moved below the CTA card on mobile. Needs a visual check on a real phone before treating as fully resolved.
+- This file (CLAUDE.md) has not been kept current with the rest of the site: it does not yet document the /home apex landing page, the /pay Stripe checkout flow, the /magazine lead magnet, the host-based middleware routing across domains, the ink/paper/green brand system, or the favicon setup, all of which are live. Treat sections above this note as accurate for the original find. quiz only, and verify against the actual code before relying on this file for anything outside that.
 
 ## Future Plans (Do Not Build Unless Asked)
 
